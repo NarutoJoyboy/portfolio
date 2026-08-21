@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Github, Linkedin, Mail, ArrowRight, ArrowUpRight, User, MapPin, ShieldCheck } from "lucide-react";
 import Reveal from "./components/Reveal";
 import Parallax from "./components/Parallax";
@@ -21,11 +22,15 @@ const FEATURED_PROJECT = {
 const OTHER_PROJECTS = [
   {
     title: "Americar",
-    desc: "Multi-app membership platform for a car-care service network — customer, store, and vendor apps with QR check-in and mileage tracking.",
+    href: "https://americar.app/",
+    image: "/projects/americar.jpg",
+    desc: "Vehicle maintenance tracking and a trusted service-provider network — customer, store, and vendor apps with QR check-in and mileage tracking.",
     tags: ["React Native", "React", "Firebase"],
   },
   {
     title: "OnlyMaple",
+    href: "https://onlymaple.vercel.app/",
+    image: "/projects/onlymaple.png",
     desc: "A certification directory helping Canadians find and support verified Canadian-owned businesses.",
     tags: ["Next.js", "Firebase", "Framer Motion"],
   },
@@ -255,16 +260,31 @@ export default function Portfolio() {
 
           {/* Other projects */}
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {OTHER_PROJECTS.map(({ title, desc, tags }, i) => (
+            {OTHER_PROJECTS.map(({ title, href, image, desc, tags }, i) => (
               <Reveal key={title} delay={i * 100 + 100}>
-                <div className="h-full rounded-[2rem] border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] bg-surface overflow-hidden">
-                  <div className="aspect-[16/9] bg-[linear-gradient(135deg,color-mix(in_srgb,var(--accent)_14%,var(--surface)),var(--surface)_65%)] flex items-center justify-center">
-                    <span className="font-serif-italic text-5xl text-accent select-none">
-                      {title[0]}
-                    </span>
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block h-full rounded-[2rem] border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] bg-surface overflow-hidden transition-transform hover:-translate-y-1"
+                >
+                  <div className="relative aspect-[16/9] overflow-hidden">
+                    <Image
+                      src={image}
+                      alt={`${title} homepage screenshot`}
+                      fill
+                      sizes="(max-width: 640px) 100vw, 50vw"
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    />
                   </div>
                   <div className="p-6">
-                    <h3 className="font-semibold">{title}</h3>
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-semibold">{title}</h3>
+                      <ArrowUpRight
+                        size={16}
+                        className="shrink-0 text-[color-mix(in_srgb,var(--foreground)_35%,transparent)] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent"
+                      />
+                    </div>
                     <p className="mt-1 text-sm text-[color-mix(in_srgb,var(--foreground)_60%,transparent)] leading-relaxed">
                       {desc}
                     </p>
@@ -279,7 +299,7 @@ export default function Portfolio() {
                       ))}
                     </div>
                   </div>
-                </div>
+                </a>
               </Reveal>
             ))}
           </div>
