@@ -5,6 +5,8 @@
   --foreground: #171717;
   --accent: #4f46e5;
   --accent-foreground: #ffffff;
+  --accent2: #f59e0b;
+  --accent2-foreground: #171717;
 }
 
 @theme inline {
@@ -12,6 +14,8 @@
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-accent2: var(--accent2);
+  --color-accent2-foreground: var(--accent2-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -22,6 +26,8 @@
     --foreground: #ededed;
     --accent: #818cf8;
     --accent-foreground: #0a0a0a;
+    --accent2: #fbbf24;
+    --accent2-foreground: #0a0a0a;
   }
 }
 
@@ -35,4 +41,13 @@ body {
     linear-gradient(90deg, color-mix(in srgb, var(--foreground) 5%, transparent) 1px, transparent 1px);
   background-size: auto, 48px 48px, 48px 48px;
   background-position: center, center, center;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee 22s linear infinite;
 }
