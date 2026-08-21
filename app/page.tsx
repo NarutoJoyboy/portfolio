@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, ArrowUpRight, ArrowRight, User } from "lucide-react";
+import { Github, Linkedin, Mail, ArrowRight, User, MapPin, ShieldCheck, ImagePlus } from "lucide-react";
 import Reveal from "./components/Reveal";
 import Parallax from "./components/Parallax";
 
@@ -9,26 +9,14 @@ const FEATURES = [
   { title: "Project Management", desc: "Scope, timeline, ship — owned end to end." },
 ];
 
-const PROJECTS = [
-  {
-    title: "NerdMarket",
-    year: "2026",
-    desc: "Field-service marketplace connecting vendors and technicians, with GPS check-in, proof-of-work, and escrow release.",
-    tags: ["NestJS", "Prisma", "Postgres", "Next.js"],
-  },
-  {
-    title: "Project Two",
-    year: "—",
-    desc: "Placeholder — swap in your next case study.",
-    tags: ["Tag A", "Tag B"],
-  },
-  {
-    title: "Project Three",
-    year: "—",
-    desc: "Placeholder — swap in your next case study.",
-    tags: ["Tag C", "Tag D"],
-  },
-];
+const FEATURED_PROJECT = {
+  title: "NerdMarket",
+  year: "2026",
+  desc: "Field-service marketplace connecting vendors and technicians, with GPS check-in, proof-of-work, and escrow release.",
+  tags: ["NestJS", "Prisma", "Postgres", "Next.js"],
+};
+
+const PLACEHOLDER_PROJECTS = ["Project Two", "Project Three"];
 
 const NAV = [
   { href: "#work", label: "Work" },
@@ -172,41 +160,91 @@ export default function Portfolio() {
             </Reveal>
           </div>
 
-          <div className="mt-10 flex flex-col gap-6">
-            {PROJECTS.map(({ title, year, desc, tags }, i) => (
-              <Reveal key={title} delay={i * 100}>
-                <div className="group rounded-[2rem] border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] bg-surface overflow-hidden transition-transform hover:-translate-y-1">
-                  <div className="relative aspect-[16/8] bg-[linear-gradient(135deg,color-mix(in_srgb,var(--accent)_18%,var(--surface)),var(--surface)_60%)] flex items-center justify-center">
-                    <span className="text-6xl sm:text-7xl font-black tracking-tighter text-[color-mix(in_srgb,var(--foreground)_8%,transparent)] uppercase select-none">
-                      {title}
-                    </span>
-                    <span className="absolute bottom-5 left-5 inline-flex items-center gap-2 rounded-full bg-background px-4 py-2 text-xs font-medium">
-                      Case study <ArrowUpRight size={13} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </span>
+          {/* Featured project — real work gets a real mockup */}
+          <Reveal className="mt-10">
+            <div className="group rounded-[2rem] border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] bg-surface overflow-hidden transition-transform hover:-translate-y-1">
+              <div className="relative aspect-[16/9] sm:aspect-[16/7] bg-[linear-gradient(135deg,color-mix(in_srgb,var(--accent)_14%,var(--surface)),var(--surface)_65%)] p-4 sm:p-8">
+                {/* abstract app-window mockup */}
+                <div className="h-full w-full rounded-xl border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] bg-background overflow-hidden flex flex-col">
+                  <div className="flex items-center gap-1.5 border-b border-[color-mix(in_srgb,var(--foreground)_8%,transparent)] px-4 py-3">
+                    <span className="h-2.5 w-2.5 rounded-full bg-[color-mix(in_srgb,var(--foreground)_20%,transparent)]" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-[color-mix(in_srgb,var(--foreground)_20%,transparent)]" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-[color-mix(in_srgb,var(--foreground)_20%,transparent)]" />
+                    <span className="ml-3 h-5 flex-1 max-w-xs rounded-full bg-[color-mix(in_srgb,var(--foreground)_6%,transparent)]" />
                   </div>
-                  <div className="p-6 flex items-start justify-between gap-6 flex-wrap">
-                    <div>
-                      <h3 className="text-xl font-semibold">{title}</h3>
-                      <p className="mt-1 max-w-lg text-sm text-[color-mix(in_srgb,var(--foreground)_60%,transparent)]">
-                        {desc}
-                      </p>
+                  <div className="flex-1 grid grid-cols-[minmax(0,1fr)] sm:grid-cols-[7rem_1fr] gap-4 p-4 sm:p-5">
+                    <div className="hidden sm:flex flex-col gap-2">
+                      {[70, 90, 55, 80].map((w, idx) => (
+                        <span
+                          key={idx}
+                          style={{ width: `${w}%` }}
+                          className="h-2.5 rounded-full bg-[color-mix(in_srgb,var(--foreground)_8%,transparent)]"
+                        />
+                      ))}
                     </div>
-                    <div className="flex items-center gap-4">
-                      <div className="flex flex-wrap gap-2 justify-end">
-                        {tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="rounded-full border border-[color-mix(in_srgb,var(--foreground)_15%,transparent)] px-2.5 py-0.5 text-xs text-[color-mix(in_srgb,var(--foreground)_55%,transparent)]"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                      <span className="text-xs text-[color-mix(in_srgb,var(--foreground)_45%,transparent)] shrink-0">
-                        {year}
+                    <div className="grid grid-cols-2 gap-3">
+                      {[0, 1, 2, 3].map((idx) => (
+                        <div
+                          key={idx}
+                          className={`rounded-lg border p-3 flex flex-col justify-between ${
+                            idx === 0
+                              ? "border-accent bg-[color-mix(in_srgb,var(--accent)_10%,transparent)]"
+                              : "border-[color-mix(in_srgb,var(--foreground)_8%,transparent)]"
+                          }`}
+                        >
+                          {idx === 0 ? (
+                            <ShieldCheck size={16} className="text-accent" />
+                          ) : (
+                            <MapPin size={16} className="text-[color-mix(in_srgb,var(--foreground)_35%,transparent)]" />
+                          )}
+                          <div className="mt-3 space-y-1.5">
+                            <span className="block h-2 w-3/4 rounded-full bg-[color-mix(in_srgb,var(--foreground)_10%,transparent)]" />
+                            <span className="block h-2 w-1/2 rounded-full bg-[color-mix(in_srgb,var(--foreground)_10%,transparent)]" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6 flex items-start justify-between gap-6 flex-wrap">
+                <div>
+                  <h3 className="text-xl font-semibold">{FEATURED_PROJECT.title}</h3>
+                  <p className="mt-1 max-w-lg text-sm text-[color-mix(in_srgb,var(--foreground)_60%,transparent)]">
+                    {FEATURED_PROJECT.desc}
+                  </p>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="flex flex-wrap gap-2 justify-end">
+                    {FEATURED_PROJECT.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-[color-mix(in_srgb,var(--foreground)_15%,transparent)] px-2.5 py-0.5 text-xs text-[color-mix(in_srgb,var(--foreground)_55%,transparent)]"
+                      >
+                        {tag}
                       </span>
-                    </div>
+                    ))}
                   </div>
+                  <span className="text-xs text-[color-mix(in_srgb,var(--foreground)_45%,transparent)] shrink-0">
+                    {FEATURED_PROJECT.year}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Placeholders — honestly marked, not dressed up as real work */}
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {PLACEHOLDER_PROJECTS.map((title, i) => (
+              <Reveal key={title} delay={i * 100 + 100}>
+                <div className="rounded-[2rem] border border-dashed border-[color-mix(in_srgb,var(--foreground)_15%,transparent)] p-6 flex flex-col items-center justify-center text-center gap-2 aspect-[16/10] sm:aspect-[16/9]">
+                  <ImagePlus size={20} className="text-[color-mix(in_srgb,var(--foreground)_35%,transparent)]" />
+                  <p className="text-sm font-medium text-[color-mix(in_srgb,var(--foreground)_55%,transparent)]">
+                    {title}
+                  </p>
+                  <p className="text-xs text-[color-mix(in_srgb,var(--foreground)_40%,transparent)]">
+                    Your next case study goes here
+                  </p>
                 </div>
               </Reveal>
             ))}
