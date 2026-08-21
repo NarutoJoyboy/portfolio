@@ -1,4 +1,5 @@
-import { Github, Linkedin, Mail, ArrowRight, User, MapPin, ShieldCheck, ImagePlus } from "lucide-react";
+import Link from "next/link";
+import { Github, Linkedin, Mail, ArrowRight, ArrowUpRight, User, MapPin, ShieldCheck, ImagePlus } from "lucide-react";
 import Reveal from "./components/Reveal";
 import Parallax from "./components/Parallax";
 
@@ -12,6 +13,7 @@ const FEATURES = [
 const FEATURED_PROJECT = {
   title: "NerdMarket",
   year: "2026",
+  href: "/work/nerdmarket",
   desc: "Field-service marketplace connecting vendors and technicians, with GPS check-in, proof-of-work, and escrow release.",
   tags: ["NestJS", "Prisma", "Postgres", "Next.js"],
 };
@@ -162,8 +164,15 @@ export default function Portfolio() {
 
           {/* Featured project — real work gets a real mockup */}
           <Reveal className="mt-10">
-            <div className="group rounded-[2rem] border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] bg-surface overflow-hidden transition-transform hover:-translate-y-1">
+            <Link
+              href={FEATURED_PROJECT.href}
+              className="group block rounded-[2rem] border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] bg-surface overflow-hidden transition-transform hover:-translate-y-1"
+            >
               <div className="relative aspect-[16/9] sm:aspect-[16/7] bg-[linear-gradient(135deg,color-mix(in_srgb,var(--accent)_14%,var(--surface)),var(--surface)_65%)] p-4 sm:p-8">
+                <span className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10 z-10 inline-flex items-center gap-2 rounded-full bg-background px-4 py-2 text-xs font-medium border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)]">
+                  Case study
+                  <ArrowUpRight size={13} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </span>
                 {/* abstract app-window mockup */}
                 <div className="h-full w-full rounded-xl border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] bg-background overflow-hidden flex flex-col">
                   <div className="flex items-center gap-1.5 border-b border-[color-mix(in_srgb,var(--foreground)_8%,transparent)] px-4 py-3">
@@ -230,7 +239,7 @@ export default function Portfolio() {
                   </span>
                 </div>
               </div>
-            </div>
+            </Link>
           </Reveal>
 
           {/* Placeholders — honestly marked, not dressed up as real work */}
