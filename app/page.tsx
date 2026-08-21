@@ -1,150 +1,141 @@
-"use client";
-import React, { Suspense, useState, useEffect } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { Stage, PresentationControls, ContactShadows, Environment } from '@react-three/drei';
-import { Physics, RigidBody } from '@react-three/rapier';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Smartphone, Code2, Zap, Terminal, ArrowRight, Info, ShieldCheck, Box } from 'lucide-react';
+import { Code2, Layers, Palette, Server, Github, Linkedin, Mail } from "lucide-react";
 
-// --- 1. THE "INSTANT FALLBACK" HERO (SEO & LCP Friendly) ---
-const StaticHero = ({ onEnter }: { onEnter: () => void }) => (
-  <motion.div 
-    exit={{ opacity: 0, scale: 1.1 }}
-    className="fixed inset-0 z-[100] bg-[#020202] flex flex-col items-center justify-center p-6 text-center"
-  >
-    <div className="max-w-4xl">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
-        <span className="px-3 py-1 rounded-full border border-blue-500/30 text-[10px] font-black uppercase text-blue-400 tracking-widest bg-blue-500/5">
-          Available for Freelance // 2026
-        </span>
-      </motion.div>
-      <h1 className="text-6xl md:text-9xl font-black italic uppercase tracking-tighter leading-[0.8] mb-8 text-white">
-        Creative <br/> <span className="text-gray-800">Technologist</span>
-      </h1>
-      <p className="text-gray-500 font-mono text-sm mb-12 max-w-xl mx-auto leading-relaxed">
-        Building high-concurrency Web Systems and 60FPS React Native Experiences. 
-        Where physics meets functional engineering.
-      </p>
-      <button 
-        onClick={onEnter}
-        className="group relative px-12 py-5 bg-white text-black font-black uppercase italic tracking-widest rounded-full hover:bg-blue-600 hover:text-white transition-all overflow-hidden"
-      >
-        <span className="relative z-10 flex items-center gap-3">
-          Enter Command Center <ArrowRight size={18} />
-        </span>
-        <motion.div className="absolute inset-0 bg-blue-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
-      </button>
-    </div>
-    
-    {/* Performance Metrics Badge */}
-    <div className="absolute bottom-10 flex gap-8 opacity-30 grayscale hover:grayscale-0 transition-all cursor-help">
-       <div className="flex items-center gap-2 font-mono text-[10px]"><ShieldCheck size={14}/> LCP: 0.8s</div>
-       <div className="flex items-center gap-2 font-mono text-[10px]"><Zap size={14}/> 120FPS Optimized</div>
-    </div>
-  </motion.div>
-);
+const SKILLS = [
+  {
+    icon: Palette,
+    title: "UI Design",
+    desc: "Wireframes to high-fidelity screens — Figma-driven, built for real components.",
+  },
+  {
+    icon: Code2,
+    title: "UI Development",
+    desc: "Turning designs into responsive, accessible interfaces with React/Next.js.",
+  },
+  {
+    icon: Server,
+    title: "Backend Development",
+    desc: "APIs, databases, and the plumbing that makes a product actually work.",
+  },
+  {
+    icon: Layers,
+    title: "Project Management",
+    desc: "Owning a project end to end — scope, timeline, and shipping it.",
+  },
+];
 
-// --- 2. THE MASTER COMMAND CENTER ---
-export default function MasterPortfolio() {
-  const [hasEntered, setHasEntered] = useState(false);
-  const [hoverSide, setHoverSide] = useState<'left' | 'right' | null>(null);
-  const [rotation, setRotation] = useState<[number, number, number]>([0, 0, 0]);
+const PROJECTS = [
+  {
+    title: "NerdMarket",
+    desc: "Field-service marketplace connecting vendors and technicians, with GPS check-in, proof-of-work, and escrow release.",
+    tags: ["NestJS", "Prisma", "Postgres", "Next.js"],
+  },
+  {
+    title: "Project Two",
+    desc: "Placeholder — swap in your next case study: what it does, your role, and the outcome.",
+    tags: ["Tag A", "Tag B"],
+  },
+  {
+    title: "Project Three",
+    desc: "Placeholder — swap in your next case study: what it does, your role, and the outcome.",
+    tags: ["Tag C", "Tag D"],
+  },
+];
 
+export default function Portfolio() {
   return (
-    <main className="h-screen w-full bg-[#020202] text-white selection:bg-blue-500">
-      
-      <AnimatePresence>
-        {!hasEntered && <StaticHero onEnter={() => setHasEntered(true)} />}
-      </AnimatePresence>
+    <main className="mx-auto max-w-3xl px-6 py-20 sm:py-28">
+      {/* Hero */}
+      <section>
+        <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight">
+          Prem Prajapat
+        </h1>
+        <p className="mt-3 text-lg text-[color-mix(in_srgb,var(--foreground)_70%,transparent)]">
+          UI Design · UI Development · Backend Development · Project Management
+        </p>
+        <p className="mt-6 max-w-xl leading-relaxed text-[color-mix(in_srgb,var(--foreground)_85%,transparent)]">
+          I design, build, and manage full products end to end — from the
+          interface someone taps, to the API and database behind it, to
+          getting it shipped.
+        </p>
+      </section>
 
-      {/* --- COMMAND CENTER UI (Only visible after Enter) --- */}
-      {hasEntered && (
-        <div className="relative h-full w-full flex overflow-hidden">
-          
-          {/* SIDE WING HINT AFFORDANCES */}
-          <div className="fixed left-4 top-1/2 -translate-y-1/2 z-50 opacity-20 hover:opacity-100 transition-opacity">
-            <div className="flex flex-col items-center gap-2 text-[8px] font-black vertical-text uppercase tracking-widest text-gray-500">
-               <ChevronRight size={16} className="animate-bounce-x" /> Inspect_Logic
+      {/* Skills */}
+      <section className="mt-16">
+        <h2 className="text-sm font-medium uppercase tracking-wider text-[color-mix(in_srgb,var(--foreground)_50%,transparent)]">
+          What I do
+        </h2>
+        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {SKILLS.map(({ icon: Icon, title, desc }) => (
+            <div
+              key={title}
+              className="rounded-lg border border-[color-mix(in_srgb,var(--foreground)_12%,transparent)] p-4"
+            >
+              <Icon size={18} className="mb-2" />
+              <h3 className="font-medium">{title}</h3>
+              <p className="mt-1 text-sm text-[color-mix(in_srgb,var(--foreground)_65%,transparent)]">
+                {desc}
+              </p>
             </div>
-          </div>
-
-          {/* LEFT: CASE STUDY WING (From your Mind Map) */}
-          <motion.aside 
-            onMouseEnter={() => setHoverSide('left')}
-            onMouseLeave={() => setHoverSide(null)}
-            initial={{ x: -440 }}
-            animate={{ x: hoverSide === 'left' ? 0 : -440 }}
-            className="fixed left-0 top-0 h-full w-[480px] bg-black/90 backdrop-blur-3xl border-r border-white/5 z-40 p-12 flex flex-col"
-          >
-             <div className="mb-12"><Terminal className="text-blue-500" /></div>
-             <h3 className="text-4xl font-black italic uppercase mb-4">The Restro 3D</h3>
-             <p className="font-mono text-xs text-gray-500 leading-relaxed">
-               Challenge: 2s Load Times for 3D Assets. <br/>
-               Solution: Draco Compression + M4 Parallel Rendering. <br/>
-               Result: +45% Engagement Metric.
-             </p>
-             <div className="mt-auto border-t border-white/5 pt-8">
-               <button className="text-[10px] font-black uppercase tracking-widest border border-white/20 px-6 py-3 rounded-full hover:bg-white hover:text-black transition-all">View Full Case Study</button>
-             </div>
-          </motion.aside>
-
-          {/* CENTER: THE INTERACTIVE LAB */}
-          <section className={`flex-1 flex flex-col transition-all duration-700 ${hoverSide ? 'opacity-10 blur-xl scale-95' : 'opacity-100'}`}>
-            <Canvas shadows camera={{ position: [0, 0, 8], fov: 35 }}>
-              <Suspense fallback={null}>
-                <Environment preset="city" />
-                <Physics gravity={[0, -9.8, 0]}>
-                  <PresentationControls 
-                    global 
-                    config={{ mass: 2, tension: 500 }} 
-                    onUpdate={(e) => setRotation([e.rotation[0], e.rotation[1], e.rotation[2]])}
-                  >
-                    <Stage intensity={0.5} adjustCamera={false}>
-                      {/* Your 3D Menu Model (Burger/Sushi) drops here */}
-                      <RigidBody colliders="cuboid" restitution={0.4}>
-                         <mesh castShadow receiveShadow>
-                           <boxGeometry args={[1.5, 1.5, 1.5]} />
-                           <meshStandardMaterial color="#050505" metalness={1} roughness={0.05} />
-                         </mesh>
-                      </RigidBody>
-                    </Stage>
-                  </PresentationControls>
-                  <ContactShadows opacity={0.4} scale={15} blur={2.5} far={4} />
-                </Physics>
-              </Suspense>
-            </Canvas>
-
-            {/* QUICK TOUR / SKIP FOR NON-GAMERS */}
-            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-white/5 px-6 py-3 rounded-full border border-white/10 backdrop-blur-sm">
-               <Info size={14} className="text-blue-500"/>
-               <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-gray-500">Use Mouse to Rotate Object // Scroll to navigate</span>
-            </div>
-          </section>
-
-          {/* RIGHT: NATIVE MIRROR (Hybrid Proof) */}
-          <motion.aside 
-            onMouseEnter={() => setHoverSide('right')}
-            onMouseLeave={() => setHoverSide(null)}
-            initial={{ x: 440 }}
-            animate={{ x: hoverSide === 'right' ? 0 : 440 }}
-            className="fixed right-0 top-0 h-full w-[480px] bg-black/90 backdrop-blur-3xl border-l border-white/5 z-40 p-12 flex flex-col items-center justify-center"
-          >
-             <Smartphone className="text-purple-500 mb-8" size={32} />
-             <div className="w-56 h-[480px] rounded-[3rem] border-4 border-gray-800 bg-gray-900 overflow-hidden relative shadow-2xl">
-               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-gray-800 rounded-b-xl" />
-               <div className="h-full w-full flex items-center justify-center bg-black/40">
-                  <Box className="text-purple-400/30" size={60} style={{ transform: `rotateX(${rotation[0]}rad) rotateY(${rotation[1]}rad)` }} />
-               </div>
-             </div>
-             <p className="mt-8 text-[10px] font-mono text-gray-600 tracking-widest uppercase italic">Real-time State Mirroring</p>
-          </motion.aside>
-
+          ))}
         </div>
-      )}
+      </section>
+
+      {/* Projects */}
+      <section className="mt-16">
+        <h2 className="text-sm font-medium uppercase tracking-wider text-[color-mix(in_srgb,var(--foreground)_50%,transparent)]">
+          Projects
+        </h2>
+        <div className="mt-5 flex flex-col gap-4">
+          {PROJECTS.map(({ title, desc, tags }) => (
+            <div
+              key={title}
+              className="rounded-lg border border-[color-mix(in_srgb,var(--foreground)_12%,transparent)] p-5"
+            >
+              <h3 className="font-medium">{title}</h3>
+              <p className="mt-1 text-sm text-[color-mix(in_srgb,var(--foreground)_65%,transparent)]">
+                {desc}
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border border-[color-mix(in_srgb,var(--foreground)_15%,transparent)] px-2.5 py-0.5 text-xs text-[color-mix(in_srgb,var(--foreground)_60%,transparent)]"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section className="mt-16">
+        <h2 className="text-sm font-medium uppercase tracking-wider text-[color-mix(in_srgb,var(--foreground)_50%,transparent)]">
+          Get in touch
+        </h2>
+        <div className="mt-4 flex gap-4">
+          <a
+            href="mailto:prempremprajapatpp@gmail.com"
+            className="inline-flex items-center gap-2 text-sm hover:underline"
+          >
+            <Mail size={16} /> Email
+          </a>
+          <a
+            href="https://github.com/"
+            className="inline-flex items-center gap-2 text-sm hover:underline"
+          >
+            <Github size={16} /> GitHub
+          </a>
+          <a
+            href="https://linkedin.com/"
+            className="inline-flex items-center gap-2 text-sm hover:underline"
+          >
+            <Linkedin size={16} /> LinkedIn
+          </a>
+        </div>
+      </section>
     </main>
   );
 }
-
-const ChevronRight = ({ size, className }: { size: number, className: string }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m9 18 6-6-6-6"/></svg>
-);
