@@ -1,6 +1,6 @@
-import { Code2, Layers, Palette, Server, Github, Linkedin, Mail, ArrowUpRight, Sparkles, User } from "lucide-react";
+import { Code2, Layers, Palette, Server, Github, Linkedin, Mail, ArrowUpRight, User } from "lucide-react";
 import Reveal from "./components/Reveal";
-import CursorGlow from "./components/CursorGlow";
+import Parallax from "./components/Parallax";
 
 const SKILLS = [
   { icon: Palette, title: "UI Design", desc: "Wireframes to high-fidelity screens in Figma." },
@@ -34,13 +34,14 @@ const NAV = [
   { href: "#contact", label: "Contact" },
 ];
 
-const MARQUEE_WORDS = ["UI Design", "UI Development", "Backend Development", "Project Management"];
+const MARQUEE_WORDS = ["UI DESIGN", "UI DEVELOPMENT", "BACKEND DEVELOPMENT", "PROJECT MANAGEMENT"];
 
 function SectionLabel({ index, label }: { index: string; label: string }) {
   return (
-    <div className="flex items-center gap-3 text-xs font-mono text-[color-mix(in_srgb,var(--foreground)_45%,transparent)]">
-      <span className="text-accent">{index}</span>
-      <span className="h-px w-8 bg-[color-mix(in_srgb,var(--foreground)_25%,transparent)]" />
+    <div className="flex items-center gap-3 text-xs font-mono uppercase tracking-widest">
+      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent text-accent-foreground text-[10px] font-bold">
+        {index}
+      </span>
       {label}
     </div>
   );
@@ -50,17 +51,21 @@ export default function Portfolio() {
   return (
     <>
       {/* Nav */}
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-[color-mix(in_srgb,var(--background)_75%,transparent)] border-b border-[color-mix(in_srgb,var(--foreground)_8%,transparent)]">
-        <div className="mx-auto max-w-5xl px-6 h-14 flex items-center justify-between">
-          <a href="#" className="flex items-center gap-2 font-medium text-sm">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent text-accent-foreground text-xs font-bold">
+      <header className="sticky top-0 z-40 bg-background border-b-2 border-foreground">
+        <div className="mx-auto max-w-5xl px-6 h-16 flex items-center justify-between">
+          <a href="#" className="flex items-center gap-2 font-black uppercase tracking-tight">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-foreground bg-accent text-accent-foreground text-xs font-black">
               PP
             </span>
-            Prem Prajapat
+            <span className="hidden sm:inline">Prem Prajapat</span>
           </a>
-          <nav className="flex gap-6 text-sm text-[color-mix(in_srgb,var(--foreground)_65%,transparent)]">
+          <nav className="flex gap-1 text-xs sm:text-sm font-mono uppercase">
             {NAV.map((item) => (
-              <a key={item.href} href={item.href} className="hover:text-foreground transition-colors">
+              <a
+                key={item.href}
+                href={item.href}
+                className="px-2 sm:px-3 py-1.5 hover:bg-foreground hover:text-background transition-colors"
+              >
                 {item.label}
               </a>
             ))}
@@ -68,20 +73,27 @@ export default function Portfolio() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-6">
+      <main className="mx-auto max-w-5xl px-6 overflow-hidden">
         {/* Hero */}
-        <CursorGlow className="overflow-hidden">
-          <section id="about" className="pt-16 sm:pt-24 pb-10 grid grid-cols-1 sm:grid-cols-[1.3fr_0.7fr] gap-10 items-center">
+        <section id="about" className="relative pt-16 sm:pt-20 pb-12">
+          <Parallax
+            speed={0.08}
+            className="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap text-[13vw] sm:text-[7rem] font-black uppercase tracking-tighter text-foreground/[0.05] select-none"
+          >
+            BUILD · SHIP · REPEAT
+          </Parallax>
+
+          <div className="relative grid grid-cols-1 sm:grid-cols-[1.3fr_0.7fr] gap-10 items-start">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--accent)_35%,transparent)] bg-[color-mix(in_srgb,var(--accent)_10%,transparent)] px-3 py-1 text-xs font-medium text-accent">
-                <Sparkles size={12} /> Available for work
+              <span className="inline-block rotate-[-3deg] rounded-full border-2 border-foreground bg-accent px-4 py-1.5 text-xs font-black uppercase tracking-wide text-accent-foreground hard-shadow-sm">
+                Available for work
               </span>
               <h1 className="mt-6 text-[15vw] sm:text-[5.5rem] md:text-[6.5rem] font-black tracking-tighter leading-[0.85] uppercase">
                 Prem
                 <br />
                 Prajapat
               </h1>
-              <p className="mt-6 max-w-md text-lg leading-relaxed text-[color-mix(in_srgb,var(--foreground)_75%,transparent)]">
+              <p className="mt-6 max-w-md text-lg leading-relaxed">
                 I design, build, and manage full products end to end — from
                 the interface someone taps, to the API and database behind
                 it, to getting it shipped.
@@ -89,31 +101,30 @@ export default function Portfolio() {
             </div>
 
             {/* Photo slot */}
-            <div className="relative">
-              <div className="aspect-[3/4] rounded-2xl border-2 border-dashed border-[color-mix(in_srgb,var(--foreground)_18%,transparent)] bg-[color-mix(in_srgb,var(--foreground)_4%,transparent)] flex flex-col items-center justify-center gap-3 p-6 text-center">
-                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--foreground)_8%,transparent)] text-[color-mix(in_srgb,var(--foreground)_40%,transparent)]">
+            <Parallax speed={-0.06} className="relative">
+              <div className="aspect-[3/4] rounded-none border-2 border-foreground bg-[repeating-linear-gradient(135deg,color-mix(in_srgb,var(--foreground)_6%,transparent)_0px,color-mix(in_srgb,var(--foreground)_6%,transparent)_2px,transparent_2px,transparent_12px)] hard-shadow flex flex-col items-center justify-center gap-3 p-6 text-center">
+                <span className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-foreground bg-background">
                   <User size={24} />
                 </span>
-                <p className="text-xs text-[color-mix(in_srgb,var(--foreground)_45%,transparent)] leading-relaxed">
-                  Your photo — chest-up, natural light,
-                  plain background. Will be duotoned to
-                  match the accent colors.
+                <p className="text-xs font-mono leading-relaxed">
+                  Your photo — chest-up, natural
+                  light, plain background.
                 </p>
               </div>
-            </div>
-          </section>
-        </CursorGlow>
+            </Parallax>
+          </div>
+        </section>
 
         {/* Marquee */}
-        <section className="border-y border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] py-4 overflow-hidden">
+        <section className="border-y-2 border-foreground py-4 overflow-hidden bg-foreground text-background">
           <div className="flex whitespace-nowrap marquee-track w-max">
             {[...MARQUEE_WORDS, ...MARQUEE_WORDS, ...MARQUEE_WORDS, ...MARQUEE_WORDS].map((word, i) => (
               <span
                 key={i}
-                className="flex items-center text-2xl sm:text-3xl font-black uppercase tracking-tight mx-6 text-[color-mix(in_srgb,var(--foreground)_25%,transparent)]"
+                className="flex items-center text-2xl sm:text-3xl font-black uppercase tracking-tight mx-6"
               >
                 {word}
-                <span className="ml-6 text-accent2">✦</span>
+                <span className="ml-6 text-accent">✦</span>
               </span>
             ))}
           </div>
@@ -126,8 +137,8 @@ export default function Portfolio() {
           </Reveal>
           <div className="mt-6 grid grid-cols-2 md:grid-cols-4 auto-rows-[minmax(140px,auto)] gap-4">
             <Reveal className="col-span-2 row-span-2">
-              <div className="h-full rounded-2xl bg-accent text-accent-foreground p-6 flex flex-col justify-between">
-                <span className="text-xs font-semibold uppercase tracking-wider opacity-80">
+              <div className="h-full rounded-none border-2 border-foreground bg-accent text-accent-foreground p-6 flex flex-col justify-between hard-shadow">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider">
                   Full-stack, full-stop
                 </span>
                 <p className="text-2xl sm:text-3xl font-bold leading-snug">
@@ -139,23 +150,11 @@ export default function Portfolio() {
 
             {SKILLS.map(({ icon: Icon, title, desc }, i) => (
               <Reveal key={title} delay={i * 80} className="col-span-2 sm:col-span-1">
-                <div
-                  className={`group h-full rounded-2xl border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] p-5 flex flex-col justify-between transition-all hover:-translate-y-0.5 hover:border-[color-mix(in_srgb,var(--accent)_45%,transparent)] hover:shadow-lg hover:shadow-[color-mix(in_srgb,var(--accent)_12%,transparent)] ${
-                    i === 3 ? "bg-accent2 text-accent2-foreground border-transparent" : ""
-                  }`}
-                >
-                  <Icon size={22} className={i === 3 ? "" : "text-accent"} />
+                <div className="press group h-full rounded-none border-2 border-foreground bg-background p-5 flex flex-col justify-between hard-shadow-sm">
+                  <Icon size={22} />
                   <div>
-                    <h3 className="mt-3 font-semibold">{title}</h3>
-                    <p
-                      className={`mt-1 text-sm ${
-                        i === 3
-                          ? "opacity-80"
-                          : "text-[color-mix(in_srgb,var(--foreground)_60%,transparent)]"
-                      }`}
-                    >
-                      {desc}
-                    </p>
+                    <h3 className="mt-3 font-bold">{title}</h3>
+                    <p className="mt-1 text-sm opacity-70">{desc}</p>
                   </div>
                 </div>
               </Reveal>
@@ -175,27 +174,27 @@ export default function Portfolio() {
             {PROJECTS.map(({ title, desc, tags, featured }, i) => (
               <Reveal key={title} delay={i * 100} className={featured ? "md:col-span-2" : ""}>
                 <div
-                  className={`group relative h-full rounded-2xl border p-6 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-[color-mix(in_srgb,var(--accent)_15%,transparent)] ${
-                    featured
-                      ? "border-[color-mix(in_srgb,var(--accent)_40%,transparent)] bg-[color-mix(in_srgb,var(--accent)_6%,transparent)]"
-                      : "border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] hover:border-[color-mix(in_srgb,var(--accent)_45%,transparent)]"
+                  className={`press group relative h-full rounded-none border-2 border-foreground p-6 hard-shadow-sm ${
+                    featured ? "bg-accent text-accent-foreground" : "bg-background"
                   }`}
                 >
                   <div className="flex items-start justify-between">
                     <h3 className="text-2xl font-bold tracking-tight">{title}</h3>
                     <ArrowUpRight
                       size={20}
-                      className="shrink-0 text-[color-mix(in_srgb,var(--foreground)_35%,transparent)] transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-accent"
+                      className="shrink-0 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
                     />
                   </div>
-                  <p className="mt-2 max-w-lg text-sm text-[color-mix(in_srgb,var(--foreground)_65%,transparent)]">
+                  <p className={`mt-2 max-w-lg text-sm ${featured ? "opacity-80" : "opacity-70"}`}>
                     {desc}
                   </p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full border border-[color-mix(in_srgb,var(--foreground)_15%,transparent)] px-2.5 py-0.5 text-xs text-[color-mix(in_srgb,var(--foreground)_60%,transparent)]"
+                        className={`rounded-none border-2 px-2.5 py-0.5 text-xs font-mono uppercase ${
+                          featured ? "border-accent-foreground" : "border-foreground"
+                        }`}
                       >
                         {tag}
                       </span>
@@ -210,29 +209,29 @@ export default function Portfolio() {
         {/* Contact */}
         <section id="contact" className="mt-24 scroll-mt-20 pb-16">
           <Reveal>
-            <div className="rounded-3xl bg-[color-mix(in_srgb,var(--foreground)_4%,transparent)] border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] p-8 sm:p-14 text-center">
+            <div className="rounded-none border-2 border-foreground bg-background p-8 sm:p-14 text-center hard-shadow">
               <div className="flex justify-center">
                 <SectionLabel index="03" label="Get in touch" />
               </div>
               <h2 className="mt-4 text-4xl sm:text-6xl font-black tracking-tighter uppercase">
-                Let&apos;s build <span className="text-accent">something.</span>
+                Let&apos;s build <span className="text-accent [-webkit-text-stroke:2px_var(--foreground)]">something.</span>
               </h2>
-              <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <div className="mt-8 flex flex-wrap justify-center gap-4">
                 <a
                   href="mailto:prempremprajapatpp@gmail.com"
-                  className="inline-flex items-center gap-2 rounded-full bg-accent text-accent-foreground px-5 py-2.5 text-sm font-semibold transition-opacity hover:opacity-90"
+                  className="press inline-flex items-center gap-2 rounded-none border-2 border-foreground bg-accent text-accent-foreground px-5 py-2.5 text-sm font-black uppercase hard-shadow-sm"
                 >
                   <Mail size={16} /> Email me
                 </a>
                 <a
                   href="https://github.com/"
-                  className="inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--foreground)_15%,transparent)] px-5 py-2.5 text-sm font-semibold transition-colors hover:border-[color-mix(in_srgb,var(--accent)_45%,transparent)] hover:text-accent"
+                  className="press inline-flex items-center gap-2 rounded-none border-2 border-foreground bg-background px-5 py-2.5 text-sm font-black uppercase hard-shadow-sm"
                 >
                   <Github size={16} /> GitHub
                 </a>
                 <a
                   href="https://linkedin.com/"
-                  className="inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--foreground)_15%,transparent)] px-5 py-2.5 text-sm font-semibold transition-colors hover:border-[color-mix(in_srgb,var(--accent)_45%,transparent)] hover:text-accent"
+                  className="press inline-flex items-center gap-2 rounded-none border-2 border-foreground bg-background px-5 py-2.5 text-sm font-black uppercase hard-shadow-sm"
                 >
                   <Linkedin size={16} /> LinkedIn
                 </a>
@@ -240,7 +239,7 @@ export default function Portfolio() {
             </div>
           </Reveal>
 
-          <footer className="mt-10 flex justify-between text-xs text-[color-mix(in_srgb,var(--foreground)_45%,transparent)]">
+          <footer className="mt-10 flex justify-between text-xs font-mono uppercase">
             <span>© {new Date().getFullYear()} Prem Prajapat</span>
             <span>Built with Next.js</span>
           </footer>

@@ -1,12 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fafafa;
-  --foreground: #171717;
-  --accent: #4f46e5;
-  --accent-foreground: #ffffff;
-  --accent2: #f59e0b;
-  --accent2-foreground: #171717;
+  --background: #f2f1ea;
+  --foreground: #0b0b0c;
+  --accent: #d7ff3f;
+  --accent-foreground: #0b0b0c;
+  --shadow-color: #0b0b0c;
 }
 
 @theme inline {
@@ -14,20 +13,17 @@
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-  --color-accent2: var(--accent2);
-  --color-accent2-foreground: var(--accent2-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #08080a;
-    --foreground: #ededed;
-    --accent: #818cf8;
-    --accent-foreground: #0a0a0a;
-    --accent2: #fbbf24;
-    --accent2-foreground: #0a0a0a;
+    --background: #0b0b0c;
+    --foreground: #f2f1ea;
+    --accent: #d7ff3f;
+    --accent-foreground: #0b0b0c;
+    --shadow-color: #d7ff3f;
   }
 }
 
@@ -35,11 +31,6 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
-  background-image:
-    radial-gradient(ellipse 70% 45% at 15% -5%, color-mix(in srgb, var(--accent) 22%, transparent), transparent),
-    radial-gradient(ellipse 55% 40% at 100% 20%, color-mix(in srgb, var(--accent2) 14%, transparent), transparent);
-  background-repeat: no-repeat;
-  position: relative;
 }
 
 body::after {
@@ -48,9 +39,35 @@ body::after {
   inset: 0;
   z-index: 50;
   pointer-events: none;
-  opacity: 0.05;
+  opacity: 0.045;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.hard-border {
+  border: 2px solid var(--foreground);
+}
+
+.hard-shadow {
+  box-shadow: 6px 6px 0 0 var(--shadow-color);
+}
+
+.hard-shadow-sm {
+  box-shadow: 4px 4px 0 0 var(--shadow-color);
+}
+
+.press {
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.press:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 0 var(--shadow-color);
+}
+
+.press:active {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0 0 var(--shadow-color);
 }
 
 @keyframes marquee {
@@ -59,5 +76,5 @@ body::after {
 }
 
 .marquee-track {
-  animation: marquee 22s linear infinite;
+  animation: marquee 18s linear infinite;
 }
