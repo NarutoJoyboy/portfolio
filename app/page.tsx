@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Github, Linkedin, Mail, ArrowRight, ArrowUpRight, User, MapPin, ShieldCheck, ImagePlus } from "lucide-react";
+import { Github, Linkedin, Mail, ArrowRight, ArrowUpRight, User, MapPin, ShieldCheck } from "lucide-react";
 import Reveal from "./components/Reveal";
 import Parallax from "./components/Parallax";
 
@@ -18,7 +18,18 @@ const FEATURED_PROJECT = {
   tags: ["NestJS", "Prisma", "Postgres", "Next.js"],
 };
 
-const PLACEHOLDER_PROJECTS = ["Project Two", "Project Three"];
+const OTHER_PROJECTS = [
+  {
+    title: "Americar",
+    desc: "Multi-app membership platform for a car-care service network — customer, store, and vendor apps with QR check-in and mileage tracking.",
+    tags: ["React Native", "React", "Firebase"],
+  },
+  {
+    title: "OnlyMaple",
+    desc: "A certification directory helping Canadians find and support verified Canadian-owned businesses.",
+    tags: ["Next.js", "Firebase", "Framer Motion"],
+  },
+];
 
 const NAV = [
   { href: "#work", label: "Work" },
@@ -242,18 +253,32 @@ export default function Portfolio() {
             </Link>
           </Reveal>
 
-          {/* Placeholders — honestly marked, not dressed up as real work */}
+          {/* Other projects */}
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {PLACEHOLDER_PROJECTS.map((title, i) => (
+            {OTHER_PROJECTS.map(({ title, desc, tags }, i) => (
               <Reveal key={title} delay={i * 100 + 100}>
-                <div className="rounded-[2rem] border border-dashed border-[color-mix(in_srgb,var(--foreground)_15%,transparent)] p-6 flex flex-col items-center justify-center text-center gap-2 aspect-[16/10] sm:aspect-[16/9]">
-                  <ImagePlus size={20} className="text-[color-mix(in_srgb,var(--foreground)_35%,transparent)]" />
-                  <p className="text-sm font-medium text-[color-mix(in_srgb,var(--foreground)_55%,transparent)]">
-                    {title}
-                  </p>
-                  <p className="text-xs text-[color-mix(in_srgb,var(--foreground)_40%,transparent)]">
-                    Your next case study goes here
-                  </p>
+                <div className="h-full rounded-[2rem] border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] bg-surface overflow-hidden">
+                  <div className="aspect-[16/9] bg-[linear-gradient(135deg,color-mix(in_srgb,var(--accent)_14%,var(--surface)),var(--surface)_65%)] flex items-center justify-center">
+                    <span className="font-serif-italic text-5xl text-accent select-none">
+                      {title[0]}
+                    </span>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="font-semibold">{title}</h3>
+                    <p className="mt-1 text-sm text-[color-mix(in_srgb,var(--foreground)_60%,transparent)] leading-relaxed">
+                      {desc}
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full border border-[color-mix(in_srgb,var(--foreground)_15%,transparent)] px-2.5 py-0.5 text-xs text-[color-mix(in_srgb,var(--foreground)_55%,transparent)]"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </Reveal>
             ))}
