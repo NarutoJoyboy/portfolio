@@ -22,14 +22,14 @@ const FEATURED_PROJECT = {
 const OTHER_PROJECTS = [
   {
     title: "Americar",
-    href: "https://americar.app/",
+    href: "/work/americar",
     image: "/projects/americar.jpg",
     desc: "Vehicle maintenance tracking and a trusted service-provider network — customer, store, and vendor apps with QR check-in and mileage tracking.",
     tags: ["React Native", "React", "Firebase"],
   },
   {
     title: "OnlyMaple",
-    href: "https://onlymaple.vercel.app/",
+    href: "/work/onlymaple",
     image: "/projects/onlymaple.png",
     desc: "A certification directory helping Canadians find and support verified Canadian-owned businesses.",
     tags: ["Next.js", "Firebase", "Framer Motion"],
@@ -262,10 +262,8 @@ export default function Portfolio() {
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
             {OTHER_PROJECTS.map(({ title, href, image, desc, tags }, i) => (
               <Reveal key={title} delay={i * 100 + 100}>
-                <a
+                <Link
                   href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="group block h-full rounded-[2rem] border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] bg-surface overflow-hidden transition-transform hover:-translate-y-1"
                 >
                   <div className="relative aspect-[16/9] overflow-hidden">
@@ -299,7 +297,7 @@ export default function Portfolio() {
                       ))}
                     </div>
                   </div>
-                </a>
+                </Link>
               </Reveal>
             ))}
           </div>
