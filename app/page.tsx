@@ -269,19 +269,19 @@ export default function Portfolio() {
               </h2>
               <div className="mt-8 flex flex-wrap justify-center gap-3">
                 <a
-                  href="mailto:prempremprajapatpp@gmail.com"
+                  href="mailto:appp7154@gmail.com"
                   className="inline-flex items-center gap-2 rounded-full bg-foreground text-background px-5 py-2.5 text-sm font-medium hover:opacity-85 transition-opacity"
                 >
                   <Mail size={16} /> Email me
                 </a>
                 <a
-                  href="https://github.com/"
+                  href="https://github.com/narutojoyboy"
                   className="inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--foreground)_15%,transparent)] px-5 py-2.5 text-sm font-medium hover:bg-foreground hover:text-background transition-colors"
                 >
                   <Github size={16} /> GitHub
                 </a>
                 <a
-                  href="https://linkedin.com/"
+                  href="https://www.linkedin.com/in/prem-prajapat-a9974a173/"
                   className="inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--foreground)_15%,transparent)] px-5 py-2.5 text-sm font-medium hover:bg-foreground hover:text-background transition-colors"
                 >
                   <Linkedin size={16} /> LinkedIn
