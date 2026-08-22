@@ -1,9 +1,17 @@
 "use client";
 import { useEffect, useRef } from "react";
 
-type Particle = { baseX: number; baseY: number; seed: number; accent: boolean };
+type Particle = { baseX: number; baseY: number; seed: number; accent: boolean; brightness: number };
 
-export default function ParticlePortrait({ className = "" }: { className?: string }) {
+export default function ParticlePortrait({
+  src,
+  focusY = 0.32,
+  className = "",
+}: {
+  src: string;
+  focusY?: number;
+  className?: string;
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -15,43 +23,43 @@ export default function ParticlePortrait({ className = "" }: { className?: strin
     let width = 0;
     let height = 0;
     let particles: Particle[] = [];
+    let cancelled = false;
     const mouse = { x: -9999, y: -9999 };
 
-    function buildSilhouette() {
+    const img = new Image();
+    img.src = src;
+
+    function sampleImage() {
       const off = document.createElement("canvas");
       off.width = width;
       off.height = height;
       const octx = off.getContext("2d")!;
-      octx.fillStyle = "#fff";
 
-      const cx = width / 2;
-      const headY = height * 0.32;
-      const headR = width * 0.16;
-      octx.beginPath();
-      octx.arc(cx, headY, headR, 0, Math.PI * 2);
-      octx.fill();
-
-      octx.beginPath();
-      octx.moveTo(cx - width * 0.32, height * 1.05);
-      octx.quadraticCurveTo(cx - width * 0.3, height * 0.62, cx, height * 0.58);
-      octx.quadraticCurveTo(cx + width * 0.3, height * 0.62, cx + width * 0.32, height * 1.05);
-      octx.closePath();
-      octx.fill();
+      // object-fit: cover, biased toward focusY
+      const scale = Math.max(width / img.naturalWidth, height / img.naturalHeight);
+      const drawW = img.naturalWidth * scale;
+      const drawH = img.naturalHeight * scale;
+      const dx = (width - drawW) / 2;
+      const dy = (height - drawH) * focusY;
+      octx.drawImage(img, dx, dy, drawW, drawH);
 
       const data = octx.getImageData(0, 0, width, height).data;
-      const step = Math.max(3, Math.floor(width / 90));
+      const step = Math.max(3, Math.floor(width / 110));
       particles = [];
       for (let y = 0; y < height; y += step) {
         for (let x = 0; x < width; x += step) {
           const idx = (y * width + x) * 4;
-          if (data[idx + 3] > 128) {
-            particles.push({
-              baseX: x,
-              baseY: y,
-              seed: Math.random() * Math.PI * 2,
-              accent: Math.random() < 0.06,
-            });
-          }
+          const r = data[idx];
+          const g = data[idx + 1];
+          const b = data[idx + 2];
+          const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
+          particles.push({
+            baseX: x,
+            baseY: y,
+            seed: Math.random() * Math.PI * 2,
+            accent: Math.random() < 0.05,
+            brightness,
+          });
         }
       }
     }
@@ -59,12 +67,12 @@ export default function ParticlePortrait({ className = "" }: { className?: strin
     function resize() {
       const rect = canvas!.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
-      width = rect.width;
-      height = rect.height;
+      width = Math.round(rect.width);
+      height = Math.round(rect.height);
       canvas!.width = width * dpr;
       canvas!.height = height * dpr;
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
-      buildSilhouette();
+      if (img.complete && img.naturalWidth) sampleImage();
     }
 
     function draw(t: number) {
@@ -83,21 +91,26 @@ export default function ParticlePortrait({ className = "" }: { className?: strin
         }
         y += Math.sin(t / 900 + p.seed) * 1.2;
 
-        const twinkle = 0.35 + 0.35 * Math.sin(t / 1000 + p.seed);
+        const twinkle = 0.55 + 0.35 * Math.sin(t / 1000 + p.seed);
+        const alpha = Math.min(1, p.brightness * 1.3) * twinkle;
+        const size = 0.8 + p.brightness * 1.4;
         ctx!.beginPath();
-        ctx!.arc(x, y, 1.3, 0, Math.PI * 2);
+        ctx!.arc(x, y, size, 0, Math.PI * 2);
         ctx!.fillStyle = p.accent
-          ? `rgba(216, 161, 58, ${twinkle})`
-          : `rgba(244, 242, 236, ${twinkle})`;
+          ? `rgba(216, 161, 58, ${alpha})`
+          : `rgba(244, 242, 236, ${alpha})`;
         ctx!.fill();
       }
       raf = requestAnimationFrame(draw);
     }
 
-    resize();
-    raf = requestAnimationFrame(draw);
-    window.addEventListener("resize", resize);
+    img.decode().then(() => {
+      if (cancelled) return;
+      resize();
+      raf = requestAnimationFrame(draw);
+    }).catch(() => {});
 
+    window.addEventListener("resize", resize);
     const onMove = (e: MouseEvent) => {
       const rect = canvas!.getBoundingClientRect();
       mouse.x = e.clientX - rect.left;
@@ -111,12 +124,13 @@ export default function ParticlePortrait({ className = "" }: { className?: strin
     canvas.addEventListener("mouseleave", onLeave);
 
     return () => {
+      cancelled = true;
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       canvas.removeEventListener("mousemove", onMove);
       canvas.removeEventListener("mouseleave", onLeave);
     };
-  }, []);
+  }, [src, focusY]);
 
   return <canvas ref={canvasRef} className={className} />;
 }

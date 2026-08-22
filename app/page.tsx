@@ -108,9 +108,9 @@ export default function Portfolio() {
               className="relative aspect-[4/5] rounded-[2rem] overflow-hidden border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] shadow-[0_20px_60px_-20px_rgba(0,0,0,0.35)]"
               style={{ background: "#111110" }}
             >
-              <ParticlePortrait className="absolute inset-0 h-full w-full cursor-default" />
+              <ParticlePortrait src="/photo/prem.jpg" className="absolute inset-0 h-full w-full cursor-default" />
               <p className="pointer-events-none absolute bottom-5 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-wide text-white/40 text-center whitespace-nowrap">
-                Move your cursor · swap for your photo
+                Move your cursor
               </p>
             </div>
           </Parallax>
