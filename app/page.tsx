@@ -1,8 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Github, Linkedin, Mail, ArrowRight, ArrowUpRight, User, MapPin, ShieldCheck } from "lucide-react";
+import { Github, Linkedin, Mail, ArrowRight, ArrowUpRight, MapPin, ShieldCheck } from "lucide-react";
 import Reveal from "./components/Reveal";
 import Parallax from "./components/Parallax";
+import ParticlePortrait from "./components/ParticlePortrait";
 
 const FEATURES = [
   { title: "UI Design", desc: "Wireframes to high-fidelity screens in Figma." },
@@ -103,13 +104,13 @@ export default function Portfolio() {
           </div>
 
           <Parallax speed={0.04}>
-            <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] bg-surface flex flex-col items-center justify-center gap-3 p-8 text-center shadow-[0_20px_60px_-20px_rgba(0,0,0,0.35)]">
-              <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--foreground)_6%,transparent)] text-[color-mix(in_srgb,var(--foreground)_40%,transparent)]">
-                <User size={26} />
-              </span>
-              <p className="text-xs text-[color-mix(in_srgb,var(--foreground)_45%,transparent)] leading-relaxed max-w-[16rem]">
-                Your photo — chest-up, natural light, plain background. Duotone
-                it in a warm neutral to match this palette.
+            <div
+              className="relative aspect-[4/5] rounded-[2rem] overflow-hidden border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] shadow-[0_20px_60px_-20px_rgba(0,0,0,0.35)]"
+              style={{ background: "#111110" }}
+            >
+              <ParticlePortrait className="absolute inset-0 h-full w-full cursor-default" />
+              <p className="pointer-events-none absolute bottom-5 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-wide text-white/40 text-center whitespace-nowrap">
+                Move your cursor · swap for your photo
               </p>
             </div>
           </Parallax>
