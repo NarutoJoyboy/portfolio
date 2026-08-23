@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
+import { rgbFromCssVar } from "../lib/themeColor";
 
 type Point = { x: number; y: number; z: number; accent: boolean; seed: number };
 
@@ -16,7 +17,8 @@ export default function ParticleOrb({ className = "" }: { className?: string }) 
     if (!canvas || !ctx) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const dust = rgbFromCssVar("--foreground", "20, 19, 15");
+    const gold = rgbFromCssVar("--accent", "181, 130, 47");
     let raf = 0;
     let size = 0;
     const mouse = { x: 0, y: 0 }; // -1..1, eased toward target
@@ -55,8 +57,6 @@ export default function ParticleOrb({ className = "" }: { className?: string }) 
       mouse.x += (target.x - mouse.x) * 0.05;
       mouse.y += (target.y - mouse.y) * 0.05;
 
-      const dust = darkQuery.matches ? "244, 242, 236" : "40, 36, 28";
-      const gold = darkQuery.matches ? "216, 161, 58" : "181, 130, 47";
       const cx = rect.width / 2;
       const cy = rect.height / 2;
       const R = size * 0.39;
