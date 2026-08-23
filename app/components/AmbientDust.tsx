@@ -118,11 +118,13 @@ export default function AmbientDust() {
     };
   }, []);
 
+  // h-full/w-full are load-bearing: without them the canvas lays out at its
+  // intrinsic DPR-scaled attribute size rather than the viewport.
   return (
     <canvas
       ref={canvasRef}
       aria-hidden
-      className="pointer-events-none fixed inset-0 z-0"
+      className="pointer-events-none fixed inset-0 z-0 h-full w-full"
     />
   );
 }

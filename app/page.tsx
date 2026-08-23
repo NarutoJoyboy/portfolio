@@ -129,7 +129,10 @@ export default function Portfolio() {
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto max-w-7xl px-6">
+      {/* Full-width clip: the hero glow bleeds past the content column, so it has
+          to be cut at the screen edge, not at max-w-7xl. */}
+      <div className="overflow-x-clip">
+        <main className="relative z-10 mx-auto max-w-7xl px-6">
         {/* Hero */}
         <section className="relative flex min-h-[calc(100vh-5rem)] flex-col justify-center pb-20">
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
@@ -515,7 +518,7 @@ export default function Portfolio() {
             </div>
           </Reveal>
         </section>
-      </main>
+        </main>
 
       {/* Footer with ghost name */}
       <footer className="relative z-10 overflow-hidden">
@@ -534,6 +537,7 @@ export default function Portfolio() {
           Prem
         </p>
       </footer>
+      </div>
     </>
   );
 }
