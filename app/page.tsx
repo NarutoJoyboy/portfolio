@@ -154,20 +154,20 @@ export default function Portfolio() {
 
               <h1 className="mt-8 leading-[0.95] tracking-tight">
                 <span className="block text-[clamp(3rem,7vw,6.5rem)] font-black uppercase">
-                  UI/UX
+                  Ideas
                 </span>
                 <span className="block text-[clamp(2.2rem,5vw,4.5rem)] font-serif-italic text-accent">
-                  &amp; Backend
+                  to products,
                 </span>
                 <span className="text-stroke block text-[clamp(3rem,7vw,6.5rem)] font-black uppercase">
-                  Builder
+                  Shipped
                 </span>
               </h1>
 
               <p className={`mt-8 max-w-md leading-relaxed ${muted}`}>
-                I design, build, and manage full products end to end — from the
-                interface someone taps, to the API and database behind it, to
-                getting it shipped.
+                Design, code, and delivery in one pair of hands — I take a
+                product from first wireframe to the API and database behind
+                it, all the way to production.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
