@@ -70,11 +70,3 @@ body::after {
 .scroll-cue {
   animation: scroll-cue 1.8s ease-in-out infinite;
 }
-
-.hero-glow {
-  background: radial-gradient(
-    ellipse 50% 50% at 72% 45%,
-    color-mix(in srgb, var(--accent) 14%, transparent),
-    transparent 70%
-  );
-}

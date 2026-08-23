@@ -132,8 +132,6 @@ export default function Portfolio() {
       <main className="relative z-10 mx-auto max-w-7xl px-6">
         {/* Hero */}
         <section className="relative flex min-h-[calc(100vh-5rem)] flex-col justify-center pb-20">
-          <div className="hero-glow pointer-events-none absolute inset-0 -z-10" />
-
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
             <div className="relative z-10">
               <div className="flex flex-wrap items-center gap-4">

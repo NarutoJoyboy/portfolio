@@ -3,6 +3,10 @@ import { useEffect, useRef } from "react";
 
 type Point = { x: number; y: number; z: number; accent: boolean; seed: number };
 
+// Camera distance in sphere radii. Small values exaggerate perspective so hard
+// the back hemisphere collapses inward and the silhouette stops being a circle.
+const CAM = 4;
+
 export default function ParticleOrb({ className = "" }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -19,7 +23,7 @@ export default function ParticleOrb({ className = "" }: { className?: string }) 
     const target = { x: 0, y: 0 };
 
     // fibonacci sphere
-    const N = 550;
+    const N = 900;
     const points: Point[] = [];
     const golden = Math.PI * (3 - Math.sqrt(5));
     for (let i = 0; i < N; i++) {
@@ -55,7 +59,7 @@ export default function ParticleOrb({ className = "" }: { className?: string }) 
       const gold = darkQuery.matches ? "216, 161, 58" : "181, 130, 47";
       const cx = rect.width / 2;
       const cy = rect.height / 2;
-      const R = size * 0.38;
+      const R = size * 0.39;
       const rotY = (reduced ? 0 : t / 9000) + mouse.x * 0.6;
       const rotX = 0.35 + mouse.y * 0.4;
       const cosY = Math.cos(rotY);
@@ -70,14 +74,15 @@ export default function ParticleOrb({ className = "" }: { className?: string }) 
         const y1 = p.y * cosX - z1 * sinX;
         const z2 = p.y * sinX + z1 * cosX;
 
-        const persp = 1 / (1.6 - z2 * 0.5); // z2 in [-1,1]
+        // camera at z = CAM: far enough that the silhouette stays near-circular
+        const persp = CAM / (CAM - z2); // z2 in [-1,1]
         const px = cx + x1 * R * persp;
         const py = cy + y1 * R * persp;
 
         const depth = (z2 + 1) / 2; // 0 back, 1 front
-        const twinkle = reduced ? 1 : 0.7 + 0.3 * Math.sin(t / 1200 + p.seed);
-        const alpha = (0.12 + depth * 0.75) * twinkle;
-        const r = (0.6 + depth * 1.6) * (size / 420);
+        const twinkle = reduced ? 1 : 0.82 + 0.18 * Math.sin(t / 1200 + p.seed);
+        const alpha = (0.25 + depth * 0.62) * twinkle;
+        const r = (1 + depth * 1.4) * (size / 480);
         ctx!.beginPath();
         ctx!.arc(px, py, r, 0, Math.PI * 2);
         ctx!.fillStyle = p.accent
@@ -112,5 +117,16 @@ export default function ParticleOrb({ className = "" }: { className?: string }) 
     };
   }, []);
 
-  return <canvas ref={canvasRef} className={className} />;
+  return (
+    <div className={`relative ${className}`}>
+      <div
+        className="pointer-events-none absolute inset-[-28%] rounded-full"
+        style={{
+          background:
+            "radial-gradient(circle, color-mix(in srgb, var(--accent) 13%, transparent), transparent 62%)",
+        }}
+      />
+      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+    </div>
+  );
 }
