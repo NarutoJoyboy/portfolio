@@ -84,11 +84,19 @@ export default function AmbientDust() {
         if (p.y > height + 10) p.y = -10;
 
         const twinkle = 0.5 + 0.5 * Math.sin(t / 1400 + p.seed * 3);
-        const alpha = 0.28 * (0.3 + p.z * 0.7) * twinkle;
+        const alpha = 0.45 * (0.3 + p.z * 0.7) * twinkle;
         const size = 0.6 + p.z * 1.6;
+        const color = p.accent ? accent : dust;
+        // brightest, closest motes get a soft halo so they read as stars
+        if (p.z > 0.82) {
+          ctx!.beginPath();
+          ctx!.arc(p.x, p.y, size * 3, 0, Math.PI * 2);
+          ctx!.fillStyle = `rgba(${color}, ${alpha * 0.15})`;
+          ctx!.fill();
+        }
         ctx!.beginPath();
         ctx!.arc(p.x, p.y, size, 0, Math.PI * 2);
-        ctx!.fillStyle = `rgba(${p.accent ? accent : dust}, ${alpha})`;
+        ctx!.fillStyle = `rgba(${color}, ${alpha})`;
         ctx!.fill();
       }
       raf = requestAnimationFrame(draw);

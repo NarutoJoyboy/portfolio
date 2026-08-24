@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f4f2ec;
-  --foreground: #14130f;
-  --surface: #ffffff;
-  --accent: #b5822f;
-  /* Light only, so scrollbars and form controls don't render dark on a dark OS. */
-  color-scheme: light;
+  /* Night sky: deep ink blue, not warm black, so the dust reads as stars. */
+  --background: #0a0d16;
+  --foreground: #f4f2ec;
+  --surface: #11141f;
+  --accent: #d8a13a;
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -20,7 +20,16 @@
 }
 
 body {
-  background: var(--background);
+  /* Fixed gradient so the sky deepens toward the top of the viewport and the
+     horizon glows faintly warm, whatever the scroll position. */
+  background:
+    radial-gradient(
+      ellipse 120% 60% at 50% 100%,
+      color-mix(in srgb, var(--accent) 6%, transparent),
+      transparent 60%
+    ) fixed,
+    linear-gradient(to bottom, #060810, var(--background)) fixed;
+  background-color: var(--background);
   color: var(--foreground);
   /* Reference the next/font variable directly: @theme inline does not emit
      --font-sans at runtime, so var(--font-sans) here silently falls back to
