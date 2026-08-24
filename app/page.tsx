@@ -11,7 +11,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import Reveal from "./components/Reveal";
-import ParticleOrb from "./components/ParticleOrb";
+import SystemStack from "./components/SystemStack";
 
 const SERVICES = [
   {
@@ -188,7 +188,7 @@ export default function Portfolio() {
               </div>
             </div>
 
-            <ParticleOrb className="pointer-events-none hidden aspect-square w-full max-w-[600px] justify-self-end lg:-ml-20 lg:block" />
+            <SystemStack className="pointer-events-none hidden aspect-square w-full max-w-[600px] justify-self-end lg:-ml-20 lg:block" />
           </div>
 
           <p className="scroll-cue absolute bottom-6 left-1/2 hidden -translate-x-1/2 items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] sm:flex">
