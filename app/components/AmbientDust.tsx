@@ -12,6 +12,12 @@ type Mote = {
   accent: boolean;
 };
 
+// A nova rides an existing mote rather than a fixed point, so it keeps
+// drifting and parallaxing with the rest of the sky while it burns.
+type Nova = { mote: Mote; start: number };
+
+const NOVA_MS = 2400;
+
 export default function AmbientDust() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -26,6 +32,8 @@ export default function AmbientDust() {
     let width = 0;
     let height = 0;
     let motes: Mote[] = [];
+    let novas: Nova[] = [];
+    let nextNovaAt = 0;
     let lastScroll = window.scrollY;
     const mouse = { x: -9999, y: -9999 };
     const dust = rgbFromCssVar("--foreground", "20, 19, 15");
@@ -97,6 +105,39 @@ export default function AmbientDust() {
         ctx!.beginPath();
         ctx!.arc(p.x, p.y, size, 0, Math.PI * 2);
         ctx!.fillStyle = `rgba(${color}, ${alpha})`;
+        ctx!.fill();
+      }
+
+      // Novas: every few seconds one star flares, throws a shockwave and dies.
+      if (nextNovaAt === 0) {
+        nextNovaAt = t + 2500;
+      } else if (t > nextNovaAt && motes.length) {
+        novas.push({ mote: motes[(Math.random() * motes.length) | 0], start: t });
+        nextNovaAt = t + 4000 + Math.random() * 7000;
+      }
+      novas = novas.filter((n) => t - n.start < NOVA_MS);
+
+      for (const n of novas) {
+        const k = (t - n.start) / NOVA_MS; // 0..1 through its life
+        // fast rise, long quadratic decay
+        const flash = k < 0.12 ? k / 0.12 : (1 - (k - 0.12) / 0.88) ** 2;
+        const color = n.mote.accent ? accent : dust;
+        const { x, y } = n.mote;
+
+        ctx!.beginPath();
+        ctx!.arc(x, y, 6 + k * 46, 0, Math.PI * 2);
+        ctx!.strokeStyle = `rgba(${color}, ${(1 - k) ** 2 * 0.2})`;
+        ctx!.lineWidth = 1;
+        ctx!.stroke();
+
+        ctx!.beginPath();
+        ctx!.arc(x, y, 2 + flash * 10, 0, Math.PI * 2);
+        ctx!.fillStyle = `rgba(${color}, ${flash * 0.13})`;
+        ctx!.fill();
+
+        ctx!.beginPath();
+        ctx!.arc(x, y, 0.8 + flash * 2.2, 0, Math.PI * 2);
+        ctx!.fillStyle = `rgba(${color}, ${flash * 0.95})`;
         ctx!.fill();
       }
       raf = requestAnimationFrame(draw);
