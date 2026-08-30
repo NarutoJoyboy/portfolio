@@ -8,27 +8,30 @@ import {
   ArrowUpRight,
   ArrowDown,
   MapPin,
-  ShieldCheck,
+  Clock,
 } from "lucide-react";
 import Reveal from "./components/Reveal";
-import SystemStack from "./components/SystemStack";
 
 const SERVICES = [
   {
-    title: "UI Design",
-    desc: "Wireframes to high-fidelity screens in Figma — flows, systems, and the details that make a product feel considered.",
+    title: "Product Design",
+    desc: "User flows, wireframes, and high-fidelity screens in Figma, with a design system that stays coherent as the product grows.",
   },
   {
-    title: "UI Development",
-    desc: "Responsive, accessible interfaces in React and Next.js that match the design pixel for pixel.",
+    title: "Frontend Engineering",
+    desc: "Responsive, accessible web interfaces in React and Next.js, built to match the design precisely.",
   },
   {
-    title: "Backend Development",
-    desc: "APIs, databases, auth, payments — the plumbing that quietly works.",
+    title: "Mobile App Development",
+    desc: "Cross-platform iOS and Android apps in React Native — device features like GPS, camera, and QR scanning wired up properly, then shipped through App Store and Play Store review.",
   },
   {
-    title: "Project Management",
-    desc: "Scope, timeline, ship. Owned end to end, no hand-offs lost in between.",
+    title: "Backend Engineering",
+    desc: "APIs, data models, authentication, and payments — built to stay reliable and maintainable in production.",
+  },
+  {
+    title: "Delivery",
+    desc: "Scope, estimates, and milestones owned end to end, with no hand-offs between design and deployment.",
   },
 ];
 
@@ -65,30 +68,106 @@ const NAV = [
   { href: "#contact", label: "Contact" },
 ];
 
+// Each tool carries the reason it was picked: a stack list alone is a set of
+// buzzwords, the reasoning behind it is the part worth reading.
 const STACK = [
   {
     group: "Frontend & Mobile",
-    items: ["React", "Next.js", "React Native", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    items: [
+      {
+        name: "React",
+        why: "The component model keeps a growing interface manageable. What I use for most interactive work.",
+      },
+      {
+        name: "Next.js",
+        why: "Routing, server rendering, and image optimisation out of the box, so I spend the time on features rather than wiring up a build.",
+      },
+      {
+        name: "React Native",
+        why: "One codebase for iOS and Android. Americar shipped three apps this way, on a budget that would not have covered two native teams.",
+      },
+      {
+        name: "TypeScript",
+        why: "Catches the kind of bug that otherwise only shows up in production. I use it on anything with an API behind it.",
+      },
+      {
+        name: "Tailwind CSS",
+        why: "Styling stays with the component, so there is no stylesheet quietly drifting out of sync with the markup.",
+      },
+      {
+        name: "Framer Motion",
+        why: "Declarative animation — motion becomes part of the component instead of a separate timeline to maintain.",
+      },
+    ],
   },
   {
     group: "Backend & Data",
-    items: ["Node.js", "NestJS", "Prisma", "PostgreSQL", "Firebase", "REST APIs"],
+    items: [
+      {
+        name: "Node.js",
+        why: "One language across the whole stack, so moving between frontend and backend costs almost no context.",
+      },
+      {
+        name: "NestJS",
+        why: "Modules, dependency injection, and guards keep an API structured as it grows. NerdMarket's backend runs on it.",
+      },
+      {
+        name: "Prisma",
+        why: "Type-safe queries generated from the schema, so the database and the TypeScript cannot quietly disagree.",
+      },
+      {
+        name: "PostgreSQL",
+        why: "Relational integrity where it actually matters — escrow, payments, and anything I cannot afford to get wrong.",
+      },
+      {
+        name: "Firebase",
+        why: "Auth, storage, and realtime without standing up infrastructure. The right call when speed to market beats control.",
+      },
+      {
+        name: "REST APIs",
+        why: "Predictable, cacheable, and easy for any client to consume. I start here unless there is a reason not to.",
+      },
+    ],
   },
   {
     group: "Design & Delivery",
-    items: ["Figma", "Design systems", "Git & GitHub", "Agile / sprint planning"],
+    items: [
+      {
+        name: "Figma",
+        why: "Where the product gets worked out, while changing it is still cheap.",
+      },
+      {
+        name: "Design systems",
+        why: "Tokens and shared components, so the tenth screen costs a fraction of what the first one did.",
+      },
+      {
+        name: "Git & GitHub",
+        why: "Every change reviewable and reversible — the safety net that makes shipping quickly a reasonable thing to do.",
+      },
+      {
+        name: "App Store & Play Store",
+        why: "Release builds, store listings, and review submissions. Getting an app approved is its own skill, separate from building it.",
+      },
+      {
+        name: "Agile / sprint planning",
+        why: "Short cycles ending in something demoable, so scope problems surface early instead of at launch.",
+      },
+    ],
   },
 ];
 
 const STATS = [
   { value: "03", label: "Products shipped end to end" },
-  { value: "04", label: "Roles covered, solo" },
-  { value: "01", label: "Person to talk to" },
+  { value: "05", label: "Disciplines covered in-house" },
+  { value: "01", label: "Point of contact, brief to launch" },
 ];
 
 function SectionLabel({ index, title }: { index: string; title: string }) {
   return (
-    <p className="font-mono text-xs uppercase tracking-[0.2em] text-[color-mix(in_srgb,var(--foreground)_45%,transparent)]">
+    <p
+      className="text-xs uppercase tracking-[0.2em] text-[color-mix(in_srgb,var(--foreground)_45%,transparent)]"
+      style={{ fontFamily: "var(--font-sligoil)" }}
+    >
       <span className="text-accent">({index})</span> — {title}
     </p>
   );
@@ -135,8 +214,8 @@ export default function Portfolio() {
         <main className="relative z-10 mx-auto max-w-7xl px-6">
         {/* Hero */}
         <section className="relative flex min-h-[calc(100vh-5rem)] flex-col justify-center pb-20">
-          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-            <div className="relative z-10">
+          <div className="relative z-10">
+            <div>
               <div className="flex flex-wrap items-center gap-4">
                 <span
                   className={`inline-flex items-center gap-2 rounded-full border ${hairline} px-3.5 py-1.5 text-xs font-medium`}
@@ -152,24 +231,37 @@ export default function Portfolio() {
                 </p>
               </div>
 
-              <h1 className="mt-8 leading-[0.95] tracking-tight">
-                <span className="block text-[clamp(3rem,7vw,6.5rem)] font-black uppercase">
+              <h1 className="mt-8 leading-[0.9] tracking-tight">
+                <span
+                  className="block text-[clamp(2.8rem,13vw,11rem)] uppercase"
+                  style={{
+                    fontFamily: "var(--font-karrik)",
+                    // Karrik ships no true bold; a stroke over the fill thickens
+                    // strokes symmetrically instead of the skew a synthetic
+                    // bold would apply to its deliberately uneven letterforms.
+                    WebkitTextStroke: "1.5px currentColor",
+                  }}
+                >
                   Ideas
                 </span>
-                <span className="block text-[clamp(2.2rem,5vw,4.5rem)] font-serif-italic text-accent">
+                <span className="block text-[clamp(2rem,8.4vw,7rem)] font-serif-italic text-accent">
                   to products,
                 </span>
-                <span className="text-stroke block text-[clamp(3rem,7vw,6.5rem)] font-black uppercase">
+                <span
+                  className="text-stroke block text-[clamp(2.8rem,13vw,11rem)] uppercase"
+                  style={{ fontFamily: "var(--font-karrik)" }}
+                >
                   Shipped
                 </span>
               </h1>
 
-              <p className={`mt-8 max-w-md leading-relaxed ${muted}`}>
+              <div className="mt-10 flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
+              <p className={`max-w-md leading-relaxed ${muted}`}>
                 Design, code, and delivery in one pair of hands — I take a
                 product from first wireframe to the API and database behind
                 it, all the way to production.
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3">
                 <a
                   href="#contact"
                   className="inline-flex items-center gap-2 rounded-full bg-foreground py-1.5 pl-5 pr-1.5 text-sm font-medium text-background transition-opacity hover:opacity-85"
@@ -186,9 +278,8 @@ export default function Portfolio() {
                   See the work
                 </a>
               </div>
+              </div>
             </div>
-
-            <SystemStack className="pointer-events-none hidden aspect-square w-full max-w-[600px] justify-self-end lg:-ml-20 lg:block" />
           </div>
 
           <p className="scroll-cue absolute bottom-6 left-1/2 hidden -translate-x-1/2 items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] sm:flex">
@@ -235,8 +326,8 @@ export default function Portfolio() {
           <Reveal>
             <SectionLabel index="01" title="Services" />
             <h2 className="mt-4 max-w-2xl text-4xl font-semibold tracking-tight sm:text-5xl">
-              Everything a product needs,{" "}
-              <span className="font-serif-italic text-accent">one person.</span>
+              Design, build, and ship,{" "}
+              <span className="font-serif-italic text-accent">end to end.</span>
             </h2>
           </Reveal>
           <div className={`mt-16 border-t ${hairline}`}>
@@ -278,12 +369,27 @@ export default function Portfolio() {
                 </p>
                 <ul className={`mt-5 border-t ${hairline}`}>
                   {col.items.map((item) => (
-                    <li
-                      key={item}
-                      className={`group flex items-center justify-between border-b py-3.5 text-lg font-medium tracking-tight transition-colors hover:text-accent ${hairline}`}
-                    >
-                      {item}
-                      <span className="h-px w-6 bg-[color-mix(in_srgb,var(--foreground)_20%,transparent)] transition-all group-hover:w-10 group-hover:bg-accent" />
+                    <li key={item.name} className={`border-b ${hairline}`}>
+                      {/* Native <details>: discloses without JavaScript, and is
+                          keyboard-operable and screen-reader-announced for free. */}
+                      <details className="group">
+                        {/* flex must not sit on <summary> itself: it overrides the
+                            list-item display the disclosure behaviour depends on,
+                            and the content stops being hidden when closed. */}
+                        <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                          <div className="tool-row flex items-center justify-between py-3.5 text-lg font-medium tracking-tight transition-colors group-hover:text-accent">
+                            {item.name}
+                            {/* plus when closed, minus when open */}
+                            <span className="relative ml-4 h-3 w-3 shrink-0 text-[color-mix(in_srgb,var(--foreground)_30%,transparent)] group-hover:text-accent">
+                              <span className="absolute left-0 top-1/2 h-px w-3 -translate-y-1/2 bg-current" />
+                              <span className="tool-bar-v absolute left-1/2 top-0 h-3 w-px -translate-x-1/2 bg-current transition-transform duration-200" />
+                            </span>
+                          </div>
+                        </summary>
+                        <p className={`pb-4 pr-6 text-sm leading-relaxed ${muted}`}>
+                          {item.why}
+                        </p>
+                      </details>
                     </li>
                   ))}
                 </ul>
@@ -309,10 +415,9 @@ export default function Portfolio() {
               <div className="flex h-full flex-col justify-end gap-6">
                 <p className={`leading-relaxed ${muted}`}>
                   I&apos;m Prem — I work across the whole stack of a product: the
-                  interface someone actually uses, the backend and database that
-                  keep it running, and the project management that gets it out the
-                  door on time. Most people hand off between those roles. I
-                  don&apos;t have to.
+                  interface someone actually uses on web or mobile, the backend
+                  and database that keep it running, and the delivery that gets
+                  it out the door on time.
                 </p>
                 <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em]">
                   <MapPin size={13} className="text-accent" /> Working worldwide,
@@ -359,54 +464,18 @@ export default function Portfolio() {
                     className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                   />
                 </span>
-                {/* abstract app-window mockup */}
+                {/* No shipped preview for this one yet: a labelled placeholder
+                    is honest, where a fake dashboard implies a screenshot. */}
                 <div
-                  className={`flex h-full w-full flex-col overflow-hidden rounded-xl border bg-background ${hairline}`}
+                  className={`flex h-full w-full flex-col items-center justify-center gap-3 rounded-xl border border-dashed bg-background ${hairline}`}
                 >
-                  <div
-                    className={`flex items-center gap-1.5 border-b px-4 py-3 ${hairline}`}
-                  >
-                    <span className="h-2.5 w-2.5 rounded-full bg-[color-mix(in_srgb,var(--foreground)_20%,transparent)]" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-[color-mix(in_srgb,var(--foreground)_20%,transparent)]" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-[color-mix(in_srgb,var(--foreground)_20%,transparent)]" />
-                    <span className="ml-3 h-5 max-w-xs flex-1 rounded-full bg-[color-mix(in_srgb,var(--foreground)_6%,transparent)]" />
-                  </div>
-                  <div className="grid flex-1 grid-cols-[minmax(0,1fr)] gap-4 p-4 sm:grid-cols-[7rem_1fr] sm:p-5">
-                    <div className="hidden flex-col gap-2 sm:flex">
-                      {[70, 90, 55, 80].map((w, idx) => (
-                        <span
-                          key={idx}
-                          style={{ width: `${w}%` }}
-                          className="h-2.5 rounded-full bg-[color-mix(in_srgb,var(--foreground)_8%,transparent)]"
-                        />
-                      ))}
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      {[0, 1, 2, 3].map((idx) => (
-                        <div
-                          key={idx}
-                          className={`flex flex-col justify-between rounded-lg border p-3 ${
-                            idx === 0
-                              ? "border-accent bg-[color-mix(in_srgb,var(--accent)_10%,transparent)]"
-                              : "border-[color-mix(in_srgb,var(--foreground)_8%,transparent)]"
-                          }`}
-                        >
-                          {idx === 0 ? (
-                            <ShieldCheck size={16} className="text-accent" />
-                          ) : (
-                            <MapPin
-                              size={16}
-                              className="text-[color-mix(in_srgb,var(--foreground)_35%,transparent)]"
-                            />
-                          )}
-                          <div className="mt-3 space-y-1.5">
-                            <span className="block h-2 w-3/4 rounded-full bg-[color-mix(in_srgb,var(--foreground)_10%,transparent)]" />
-                            <span className="block h-2 w-1/2 rounded-full bg-[color-mix(in_srgb,var(--foreground)_10%,transparent)]" />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                  <Clock
+                    size={18}
+                    className="text-[color-mix(in_srgb,var(--accent)_80%,transparent)]"
+                  />
+                  <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-[color-mix(in_srgb,var(--foreground)_50%,transparent)]">
+                    Preview available soon
+                  </p>
                 </div>
               </div>
               <div className="flex flex-wrap items-start justify-between gap-6 p-6 sm:p-8">
@@ -532,7 +601,8 @@ export default function Portfolio() {
         </div>
         <p
           aria-hidden
-          className="pointer-events-none select-none whitespace-nowrap text-center text-[26vw] font-black uppercase leading-[0.75] tracking-tight text-[color-mix(in_srgb,var(--foreground)_5%,transparent)]"
+          className="pointer-events-none select-none whitespace-nowrap text-center text-[26vw] uppercase leading-[0.75] tracking-tight text-[color-mix(in_srgb,var(--foreground)_5%,transparent)]"
+          style={{ fontFamily: '"Cabinet Grotesk", sans-serif', fontWeight: 700 }}
         >
           Prem
         </p>

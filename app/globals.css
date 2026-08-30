@@ -14,7 +14,7 @@
   --color-foreground: var(--foreground);
   --color-surface: var(--surface);
   --color-accent: var(--accent);
-  --font-sans: var(--font-bricolage);
+  --font-sans: "Switzer", sans-serif;
   --font-mono: var(--font-space-mono);
   --font-serif: var(--font-serif);
 }
@@ -31,10 +31,9 @@ body {
     linear-gradient(to bottom, #060810, var(--background)) fixed;
   background-color: var(--background);
   color: var(--foreground);
-  /* Reference the next/font variable directly: @theme inline does not emit
-     --font-sans at runtime, so var(--font-sans) here silently falls back to
-     the preflight system stack. */
-  font-family: var(--font-bricolage), Arial, Helvetica, sans-serif;
+  /* @theme inline does not emit --font-sans at runtime, so name the family
+     directly here or it silently falls back to the preflight system stack. */
+  font-family: "Switzer", Arial, Helvetica, sans-serif;
 }
 
 body::after {
@@ -46,6 +45,21 @@ body::after {
   opacity: 0.035;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Display face carries the character; Switzer below stays neutral and reads
+   cleanly at paragraph sizes, which Cabinet Grotesk does not. */
+h1, h2, h3 {
+  font-family: "Cabinet Grotesk", "Switzer", sans-serif;
+}
+
+/* Tailwind emits no group-open utilities in this setup, so the open-state
+   styling for the stack disclosures is written directly. */
+details[open] .tool-row {
+  color: var(--accent);
+}
+details[open] .tool-bar-v {
+  transform: scaleY(0);
 }
 
 .font-serif-italic {
@@ -63,7 +77,9 @@ body::after {
 }
 
 .text-stroke {
-  -webkit-text-stroke: 1.5px var(--foreground);
+  /* Wider than a default outline: Karrik carries no true bold, so this
+     outline is standing in for headline weight rather than just tracing it. */
+  -webkit-text-stroke: 2.2px var(--foreground);
   color: transparent;
 }
 
