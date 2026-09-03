@@ -596,6 +596,29 @@ export default function Portfolio() {
             className={`flex flex-wrap justify-between gap-4 border-t py-8 text-xs ${hairline} text-[color-mix(in_srgb,var(--foreground)_45%,transparent)]`}
           >
             <span>© {new Date().getFullYear()} Prem Prajapat</span>
+            {/* Karrik and Sligoil are OFL: the licence asks that the designer
+                and foundry are credited wherever the type is used. */}
+            <span>
+              Type set in{" "}
+              <a
+                href="https://velvetyne.fr/fonts/karrik/"
+                target="_blank"
+                rel="noreferrer noopener"
+                className="underline decoration-dotted underline-offset-4 transition-colors hover:text-accent"
+              >
+                Karrik
+              </a>{" "}
+              and{" "}
+              <a
+                href="https://velvetyne.fr/fonts/sligoil/"
+                target="_blank"
+                rel="noreferrer noopener"
+                className="underline decoration-dotted underline-offset-4 transition-colors hover:text-accent"
+              >
+                Sligoil
+              </a>{" "}
+              (Velvetyne)
+            </span>
             <span>Built with Next.js</span>
           </div>
         </div>
