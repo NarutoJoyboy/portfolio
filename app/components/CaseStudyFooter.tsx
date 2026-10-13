@@ -6,10 +6,10 @@ export default function CaseStudyFooter() {
   return (
     <Reveal>
       <section className="pt-16">
-        <div className="rounded-[2rem] border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] bg-surface p-10 sm:p-14 text-center">
+        <div className="rounded-[2rem] border border-[color-mix(in_srgb,var(--foreground)_12%,transparent)] bg-accent-soft p-10 text-center sm:p-14">
           <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
             Want the details?{" "}
-            <span className="font-serif-italic text-accent">Ask me.</span>
+            <span className="font-display text-accent">Ask me.</span>
           </h2>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <a
