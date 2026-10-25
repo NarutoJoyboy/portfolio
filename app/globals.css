@@ -591,6 +591,24 @@ summary {
   }
 }
 
+@keyframes membership-float {
+  0%, 100% {
+    transform: rotate(3deg) translateY(0);
+  }
+  50% {
+    transform: rotate(1.5deg) translateY(-8px);
+  }
+}
+
+@keyframes seal-float {
+  0%, 100% {
+    transform: rotate(6deg) translateY(0);
+  }
+  50% {
+    transform: rotate(10deg) translateY(-7px);
+  }
+}
+
 @keyframes glass-flash {
   0%,
   58% {
