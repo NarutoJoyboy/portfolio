@@ -11,14 +11,14 @@ export default function Icon() {
           width: "100%",
           height: "100%",
           borderRadius: "50%",
-          background: "#111110",
+          background: "#0c0c0d",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           fontFamily: "sans-serif",
         }}
       >
-        <span style={{ color: "#d8a13a", fontSize: 28, fontWeight: 800 }}>PP</span>
+        <span style={{ color: "#ecebe6", fontSize: 28, fontWeight: 800 }}>PP</span>
       </div>
     ),
     { ...size }

@@ -54,7 +54,7 @@ export default function OnlyMapleCaseStudy() {
               to actually verify. OnlyMaple turns it into a checkable fact.
             </p>
           </Reveal>
-          <Reveal delay={80}>
+          <Reveal>
             <div className="mt-6 flex flex-wrap gap-2">
               {STACK.map((tag) => (
                 <span
@@ -66,7 +66,7 @@ export default function OnlyMapleCaseStudy() {
               ))}
             </div>
           </Reveal>
-          <Reveal delay={140}>
+          <Reveal>
             <a
               href="https://onlymaple.vercel.app/"
               target="_blank"

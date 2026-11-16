@@ -47,7 +47,7 @@ export default function AmericarCaseStudy() {
               vendor without anyone touching cash.
             </p>
           </Reveal>
-          <Reveal delay={80}>
+          <Reveal>
             <div className="mt-6 flex flex-wrap gap-2">
               {STACK.map((tag) => (
                 <span
@@ -59,7 +59,7 @@ export default function AmericarCaseStudy() {
               ))}
             </div>
           </Reveal>
-          <Reveal delay={140}>
+          <Reveal>
             <a
               href="https://americar.app/"
               target="_blank"

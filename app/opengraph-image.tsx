@@ -14,7 +14,7 @@ export default function OGImage() {
           flexDirection: "column",
           justifyContent: "center",
           padding: "80px",
-          background: "#111110",
+          background: "#0c0c0d",
           fontFamily: "sans-serif",
         }}
       >
@@ -24,18 +24,19 @@ export default function OGImage() {
               width: 14,
               height: 14,
               borderRadius: "50%",
-              background: "#d8a13a",
+              background: "#3ddc84",
               display: "flex",
             }}
           />
-          <span style={{ color: "#f4f2ec", fontSize: 28, fontWeight: 600 }}>PREM</span>
+          <span style={{ color: "#a3a29e", fontSize: 28 }}>Available for select projects</span>
         </div>
         <div
           style={{
             marginTop: 40,
-            fontSize: 76,
+            fontSize: 92,
             fontWeight: 600,
-            color: "#f4f2ec",
+            letterSpacing: "-0.04em",
+            color: "#ecebe6",
             lineHeight: 1.1,
             display: "flex",
           }}
@@ -46,12 +47,11 @@ export default function OGImage() {
           style={{
             marginTop: 24,
             fontSize: 32,
-            color: "#d8a13a",
-            fontStyle: "italic",
+            color: "#8fa0ff",
             display: "flex",
           }}
         >
-          UI/UX &amp; Backend Builder
+          Product designer &amp; full-stack engineer
         </div>
       </div>
     ),

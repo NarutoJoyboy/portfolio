@@ -44,7 +44,7 @@ export default function NerdMarketCaseStudy() {
               other with a job — and the money — before they&apos;ve ever met.
             </p>
           </Reveal>
-          <Reveal delay={80}>
+          <Reveal>
             <div className="mt-6 flex flex-wrap gap-2">
               {STACK.map((tag) => (
                 <span
