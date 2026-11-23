@@ -1,11 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0c0c0d;
+  --background: #0b0b0c;
   --foreground: #ecebe6;
-  --surface: #151517;
+  --surface: #141416;
+  --muted: #a09f99;
+  --subtle: #85847f;
   --accent: #5b74ff;
   --accent-soft: #14172a;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   color-scheme: dark;
 }
 
@@ -13,8 +16,11 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-surface: var(--surface);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 html {
@@ -23,6 +29,7 @@ html {
 
 body {
   min-height: 100vh;
+  overflow-x: clip;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), "Helvetica Neue", Arial, sans-serif;
@@ -62,98 +69,481 @@ summary {
 
 ::selection {
   background: var(--accent);
-  color: #fff;
+  color: var(--background);
 }
 
-.font-display,
-.font-serif-italic {
-  font-family: var(--font-instrument), Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.02em;
+/* Lives in the components layer so Tailwind utilities can still override sizes. */
+@layer components {
+  .font-display,
+  .font-serif-italic {
+    font-family: var(--font-instrument), Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  .font-label {
+    font-family: var(--font-mono);
+  }
+
+  /* Buttons and links */
+  .btn,
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 3.25rem;
+    padding: 0 1.5rem;
+    border-radius: 999px;
+    font-size: 0.9375rem;
+    transition: background-color 450ms, border-color 450ms, color 450ms;
+  }
+
+  .btn {
+    background: var(--foreground);
+    color: var(--background);
+    font-weight: 500;
+  }
+
+  .btn:hover {
+    background: var(--accent);
+  }
+
+  .btn-ghost {
+    border: 1px solid #2e2e33;
+    color: var(--foreground);
+  }
+
+  .btn-ghost:hover {
+    border-color: #6a6a70;
+    background: var(--surface);
+  }
+
+  .arw {
+    transition: rotate 600ms var(--ease-out-expo), translate 600ms var(--ease-out-expo);
+  }
+
+  a:hover .arw {
+    rotate: 45deg;
+  }
+
+  a:hover .arw-down {
+    rotate: 0deg;
+    translate: 0 3px;
+  }
+
+  a:hover .arw-back {
+    rotate: 0deg;
+    translate: -4px 0;
+  }
+
+  .link-line {
+    padding-bottom: 3px;
+    background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat;
+    transition: background-size 500ms var(--ease-out-expo);
+  }
+
+  .link-line:hover {
+    background-size: 100% 1px;
+  }
+
+  .nav-link {
+    color: var(--muted);
+    transition: color 300ms;
+  }
+
+  .nav-link:hover {
+    color: var(--foreground);
+  }
+
+  .chip {
+    border: 1px solid #2e2e33;
+    border-radius: 999px;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8125rem;
+    color: #c9c8c2;
+    transition: border-color 300ms, color 300ms;
+  }
+
+  .chip:hover {
+    border-color: #55555b;
+    color: var(--foreground);
+  }
+
+  /* Hero backdrop: a faint engineering grid under one soft light. */
+  .hero-grid {
+    background-image: linear-gradient(#ffffff0a 1px, transparent 1px), linear-gradient(90deg, #ffffff0a 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse 55% 60% at 72% 42%, #000 10%, transparent 72%);
+  }
+
+  .hero-glow {
+    background: radial-gradient(ellipse 42% 46% at 72% 40%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 70%);
+  }
+
+  .case-glow {
+    background: radial-gradient(ellipse 50% 60% at 18% 0%, color-mix(in srgb, var(--accent) 26%, transparent), transparent 70%);
+  }
+
+  .hero-clip {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    padding: 0.06em 0.04em 0.18em;
+    margin: -0.06em -0.04em -0.18em;
+  }
+
+  .hero-word {
+    display: inline-block;
+  }
+
+  .avail-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    background: #3ddc84;
+    box-shadow: 0 0 0 0 #3ddc8480;
+  }
+
+  /* Hero 3D stack: one job moving through interface, API and database. */
+  .scene {
+    perspective: 1900px;
+    perspective-origin: 50% 20%;
+  }
+
+  /* Pushed down because the raised layers project upward. */
+  .tilt {
+    position: relative;
+    top: 72px;
+    width: 330px;
+    height: 226px;
+    transform-style: preserve-3d;
+    transform: rotateX(57deg);
+  }
+
+  .spin {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform: rotateZ(-38deg);
+  }
+
+  .layer {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: 18px;
+    border-width: 1px;
+    padding: 1rem 1.125rem;
+    transform: translateZ(var(--z));
+    transition: transform 1100ms var(--ease-out-expo);
+    box-shadow: 0 40px 70px -24px #000000d9;
+  }
+
+  .scene:hover .layer-api {
+    transform: translateZ(150px);
+  }
+
+  .scene:hover .layer-ui {
+    transform: translateZ(300px);
+  }
+
+  .dot-lit {
+    position: absolute;
+    inset: -1px;
+    border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 0 14px var(--accent);
+    opacity: 0;
+  }
+
+  .scan {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 34px;
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+
+  /* NerdMarket job flow */
+  .flow-fill {
+    height: 100%;
+    background: var(--accent);
+    transform-origin: left center;
+  }
+
+  /* Capabilities marquee */
+  .marquee {
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+  }
+
+  /* Project covers */
+  .cover img {
+    transition: scale 1200ms var(--ease-out-expo);
+  }
+
+  .cover:hover img {
+    scale: 1.045;
+  }
+
+  .view-pill {
+    opacity: 0;
+    translate: 0 10px;
+    transition: opacity 350ms, translate 600ms var(--ease-out-expo);
+  }
+
+  .cover:hover .view-pill,
+  .cover:focus-visible .view-pill {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  /* Count-up numbers: the real value is in the markup, this only draws it. */
+  .count {
+    --n: var(--to);
+    counter-reset: n var(--n);
+  }
+
+  .count::after {
+    content: counter(n);
+  }
+
+  /* Services: the accent sweeps up behind a row on hover. */
+  .svc {
+    position: relative;
+    isolation: isolate;
+    transition: color 500ms;
+  }
+
+  .svc::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--accent);
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 750ms var(--ease-out-expo);
+  }
+
+  .svc:hover::before {
+    clip-path: inset(0 0 0 0);
+  }
+
+  .svc .svc-soft {
+    color: var(--muted);
+    transition: color 500ms;
+  }
+
+  .svc:hover,
+  .svc:hover .svc-soft {
+    color: var(--background);
+  }
+
+  .svc-title {
+    transition: translate 750ms var(--ease-out-expo);
+  }
+
+  .svc:hover .svc-title {
+    translate: 1rem 0;
+  }
+
+  .svc-arrow {
+    border: 1px solid #2e2e33;
+    transition: background-color 500ms, border-color 500ms, color 500ms, rotate 750ms var(--ease-out-expo);
+  }
+
+  .svc:hover .svc-arrow {
+    background: var(--background);
+    border-color: var(--background);
+    color: var(--foreground);
+    rotate: 45deg;
+  }
+
+  /* Contact */
+  .blob {
+    position: absolute;
+    z-index: -1;
+    border-radius: 999px;
+    filter: blur(80px);
+  }
+
+  .orb {
+    transition: background-color 500ms, scale 800ms var(--ease-out-expo);
+  }
+
+  .orb:hover {
+    background: var(--foreground);
+    scale: 1.06;
+  }
+
+  .orb-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    border: 1px solid var(--accent);
+    opacity: 0;
+  }
+
+  .magnetic-inner {
+    transition: translate 600ms var(--ease-out-expo);
+  }
+
+  /* Case study */
+  .node {
+    transition: border-color 400ms, translate 600ms var(--ease-out-expo);
+  }
+
+  .node:hover {
+    border-color: var(--accent);
+    translate: 0 -4px;
+  }
+
+  .pulse-dot {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    margin-top: -4px;
+    border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+    opacity: 0;
+  }
+
+  .card {
+    transition: border-color 500ms, background-color 500ms;
+  }
+
+  .card:hover {
+    border-color: #3a3a40;
+    background: var(--surface);
+  }
+
+  .card .card-num {
+    transition: color 500ms;
+  }
+
+  .card:hover .card-num {
+    color: var(--accent);
+  }
+
+  .next-link {
+    transition: background-color 600ms;
+  }
+
+  .next-link:hover {
+    background: var(--surface);
+  }
+
+  .next-title {
+    transition: translate 800ms var(--ease-out-expo);
+  }
+
+  .next-link:hover .next-title {
+    translate: 1.25rem 0;
+  }
 }
 
-.font-label,
-.font-mono {
-  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+@property --n {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
 }
 
-/* Hero: a single soft light from above. */
-.hero-light {
-  background: radial-gradient(ellipse 70% 55% at 50% -12%, color-mix(in srgb, var(--accent) 26%, transparent), transparent 70%);
-}
-
-.hero-clip {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: bottom;
-  padding: 0.08em 0.04em 0.2em;
-  margin: -0.08em -0.04em -0.2em;
-}
-
-.hero-word {
-  display: inline-block;
-}
-
-.avail-dot {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 999px;
-  background: #3ddc84;
-  box-shadow: 0 0 0 0 rgba(61, 220, 132, 0.5);
-}
-
-/* Project covers. */
-.project-media img,
-.project-media .cover-inner {
-  transition: scale 900ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.project-media:hover img,
-.project-media:hover .cover-inner {
-  scale: 1.035;
-}
-
-.view-pill {
-  opacity: 0;
-  translate: 0 0.5rem;
-  transition: opacity 300ms ease, translate 500ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.project-media:hover .view-pill,
-.project-media:focus-visible .view-pill {
-  opacity: 1;
-  translate: 0 0;
-}
-
-.row-hover {
-  transition: background-color 300ms ease, padding 500ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.row-hover:hover {
-  background-color: color-mix(in srgb, var(--foreground) 4%, transparent);
-  padding-inline: 1rem;
-}
-
-.magnetic-inner {
-  transition: translate 600ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.link-line {
-  background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat;
-  transition: background-size 400ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.link-line:hover {
-  background-size: 100% 1px;
+@media (max-width: 30rem) {
+  .scene {
+    scale: 0.8;
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  .hero-word {
+    animation: word-rise 1200ms var(--ease-out-expo) both;
+  }
+
+  .hero-fade {
+    animation: fade-up 1100ms var(--ease-out-expo) both;
+  }
+
+  .nav-in {
+    animation: drop-in 1000ms var(--ease-out-expo) both;
+  }
+
+  .avail-dot {
+    animation: avail-pulse 2.4s ease-out infinite;
+  }
+
+  .hero-glow {
+    animation: glow 9s ease-in-out infinite alternate;
+  }
+
+  .tilt {
+    animation: bob 7s ease-in-out infinite;
+  }
+
+  .spin {
+    animation: sway 16s ease-in-out infinite alternate;
+  }
+
+  .layer {
+    animation: stack-in 1400ms var(--ease-out-expo) backwards;
+  }
+
+  /* The interface dots, API and database rows and the NerdMarket flow share one 8s clock. */
+  .dot-lit.l0 { animation: lit0 8s ease-out infinite; }
+  .dot-lit.l1 { animation: lit1 8s ease-out infinite; }
+  .dot-lit.l2 { animation: lit2 8s ease-out infinite; }
+  .dot-lit.l3 { animation: lit3 8s ease-out infinite; }
+
+  .scan {
+    animation: scan 8s var(--ease-out-expo) infinite;
+  }
+
+  .flow-fill {
+    animation: fill 8s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+  }
+
+  .toast {
+    animation: toast 8s var(--ease-out-expo) infinite;
+  }
+
+  .marquee-track {
+    animation: marquee 48s linear infinite;
+  }
+
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  .blob-a {
+    animation: drift-a 14s ease-in-out infinite alternate;
+  }
+
+  .blob-b {
+    animation: drift-b 18s ease-in-out infinite alternate;
+  }
+
+  .orb-ring {
+    animation: ring 2.8s var(--ease-out-expo) infinite;
+  }
+
+  .pulse-dot {
+    animation: travel 2.6s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+  }
+
   /* Only hide content when JavaScript is there to reveal it. */
   .js .reveal {
     opacity: 0;
-    translate: 0 28px;
-    transition: opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1), translate 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+    translate: 0 70px;
+    transition: opacity 1100ms var(--ease-out-expo), translate 1100ms var(--ease-out-expo);
   }
 
   .js .reveal.is-visible {
@@ -161,41 +551,136 @@ summary {
     translate: 0 0;
   }
 
-  .hero-word {
-    animation: word-rise 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  .js .reveal.is-visible .count {
+    animation: count 2000ms cubic-bezier(0.2, 0.8, 0.2, 1) 200ms both;
   }
 
-  .hero-fade {
-    animation: fade-up 1000ms 650ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  .js .reveal .line-fill {
+    scale: 0 1;
+    transform-origin: left center;
+    transition: scale 1600ms var(--ease-out-expo) 300ms;
   }
 
-  .avail-dot {
-    animation: avail-pulse 2.4s ease-out infinite;
+  .js .reveal.is-visible .line-fill {
+    scale: 1 1;
+  }
+
+  .js .reveal .term-line {
+    opacity: 0;
+    translate: -8px 0;
+    transition: opacity 400ms, translate 600ms var(--ease-out-expo);
+    transition-delay: calc(var(--i) * 260ms + 400ms);
+  }
+
+  .js .reveal.is-visible .term-line {
+    opacity: 1;
+    translate: 0 0;
   }
 }
 
 @keyframes word-rise {
   from {
-    translate: 0 115%;
+    translate: 0 112%;
   }
 }
 
 @keyframes fade-up {
   from {
     opacity: 0;
-    translate: 0 16px;
+    translate: 0 22px;
+  }
+}
+
+@keyframes drop-in {
+  from {
+    opacity: 0;
+    translate: 0 -24px;
   }
 }
 
 @keyframes avail-pulse {
   70%,
   100% {
-    box-shadow: 0 0 0 8px rgba(61, 220, 132, 0);
+    box-shadow: 0 0 0 9px #3ddc8400;
   }
+}
+
+@keyframes glow {
+  from { opacity: 0.75; translate: -2% 2%; }
+  to { opacity: 1; translate: 2% -2%; }
+}
+
+@keyframes bob {
+  50% { translate: 0 -14px; }
+}
+
+@keyframes sway {
+  from { transform: rotateZ(-44deg); }
+  to { transform: rotateZ(-31deg); }
+}
+
+@keyframes stack-in {
+  from { opacity: 0; translate: 0 0 340px; }
+}
+
+@keyframes lit0 { 0%, 90% { opacity: 1; } 96%, 100% { opacity: 0; } }
+@keyframes lit1 { 0%, 23% { opacity: 0; } 27%, 90% { opacity: 1; } 96%, 100% { opacity: 0; } }
+@keyframes lit2 { 0%, 48% { opacity: 0; } 52%, 90% { opacity: 1; } 96%, 100% { opacity: 0; } }
+@keyframes lit3 { 0%, 73% { opacity: 0; } 77%, 90% { opacity: 1; } 96%, 100% { opacity: 0; } }
+
+@keyframes scan {
+  0%, 21% { translate: 0 0; }
+  25%, 46% { translate: 0 100%; }
+  50%, 71% { translate: 0 200%; }
+  75%, 92% { translate: 0 300%; }
+  100% { translate: 0 0; }
+}
+
+@keyframes fill {
+  0% { scale: 0 1; opacity: 1; }
+  75%, 90% { scale: 1 1; opacity: 1; }
+  96%, 100% { scale: 1 1; opacity: 0; }
+}
+
+@keyframes toast {
+  0%, 74% { opacity: 0; translate: 0 14px; }
+  79%, 90% { opacity: 1; translate: 0 0; }
+  96%, 100% { opacity: 0; translate: 0 0; }
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+@keyframes drift-a {
+  to { translate: 120px 60px; scale: 1.15; }
+}
+
+@keyframes drift-b {
+  to { translate: -140px -40px; scale: 0.9; }
+}
+
+@keyframes ring {
+  from { opacity: 0.7; scale: 1; }
+  to { opacity: 0; scale: 1.35; }
+}
+
+@keyframes travel {
+  from { left: 0; opacity: 0; }
+  15%, 85% { opacity: 1; }
+  to { left: calc(100% - 8px); opacity: 0; }
+}
+
+@keyframes count {
+  from { --n: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .pulse-dot {
+    display: none;
   }
 }
